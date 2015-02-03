@@ -1,0 +1,5 @@
+C:\Users\Salvatore_\documents\visual studio 2013\Projects\RubiksCube\RubiksCube\obj\Debug\RubiksCube.csprojResolveAssemblyReference.cache
+C:\Users\Salvatore_\documents\visual studio 2013\Projects\RubiksCube\RubiksCube\bin\Debug\RubiksCube.dll
+C:\Users\Salvatore_\documents\visual studio 2013\Projects\RubiksCube\RubiksCube\bin\Debug\RubiksCube.pdb
+C:\Users\Salvatore_\documents\visual studio 2013\Projects\RubiksCube\RubiksCube\obj\Debug\RubiksCube.dll
+C:\Users\Salvatore_\documents\visual studio 2013\Projects\RubiksCube\RubiksCube\obj\Debug\RubiksCube.pdb
