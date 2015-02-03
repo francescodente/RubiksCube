@@ -54,7 +54,21 @@ namespace RubiksCube
                 // Gets the edge that needs to be moved.
                 Cubie edge = _cube.FindEdge(SIDE_COLORS[c], SIDE_COLORS[c + 1]);
 
-                // TODO: spigolo nel livello centrale.
+                ChangeView(new CubeView(SIDE_COLORS[c], FINAL_COLOR));
+
+                // If the edge is in the middle layer and it is located in the back face,
+                // the view will be set to the back face. Then the program will use the algorithm to switch
+                // the edges.
+                if (edge.Y == 1)
+                {
+                    if (edge.Z == 2)
+                        ChangeView(new CubeView(SIDE_COLORS[(c + 2) % 4], FINAL_COLOR));
+
+                    if (edge.X == 0)
+                        AddMoveList(Algorithms.SecondLayerLeft);
+                    else
+                        AddMoveList(Algorithms.SecondLayerRight);
+                }
 
                 // Sets the view.
                 if (edge.UpColor == SIDE_COLORS[c])
@@ -62,10 +76,16 @@ namespace RubiksCube
                 else
                     ChangeView(new CubeView(SIDE_COLORS[c], FINAL_COLOR));
 
+                // Rotates the upper layer until the edge is in the front face.
                 while (edge.Z != 0)
                     AddMove(Move.Up);
 
-                if (edge.UpColor == )
+                // Use the algorithm to place the edge in the correct position.
+                if (_cube.FindCenter((RubiksColor)edge.UpColor).LeftColor == edge.UpColor)
+                    AddMoveList(Algorithms.SecondLayerLeft);
+                else
+                    AddMoveList(Algorithms.SecondLayerRight);
+
             }
         }
 
