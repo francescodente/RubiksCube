@@ -212,6 +212,24 @@ namespace RubiksCube
             return null;
         }
 
+        public bool IsCubiePlacedCorrectly(Cubie c)
+        {
+            if (c.FrontColor != Solved[c.X + 1, c.Y, c.Z + 1])
+                return false;
+            if (c.BackColor != Solved[c.X + 1, c.Y + 2, c.Z + 1])
+                return false;
+            if (c.LeftColor != Solved[c.X, c.Y + 1, c.Z + 1])
+                return false;
+            if (c.RightColor != Solved[c.X + 2, c.Y + 1, c.Z + 1])
+                return false;
+            if (c.UpColor != Solved[c.X + 1, c.Y + 1, c.Z])
+                return false;
+            if (c.DownColor != Solved[c.X + 1, c.Y + 1, c.Z + 2])
+                return false;
+
+            return true;
+        }
+            
         public Cubie FindEdge(RubiksColor color1, RubiksColor color2)
         {
             foreach (Cubie c in Edges)

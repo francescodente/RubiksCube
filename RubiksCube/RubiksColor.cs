@@ -12,6 +12,7 @@ namespace RubiksCube
         Green,
         Blue,
         Red,
-        Orange
+        Orange,
+        Any,
     }
 }

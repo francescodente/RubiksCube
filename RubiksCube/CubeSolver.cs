@@ -44,7 +44,7 @@ namespace RubiksCube
 
         private void OLL()
         {
-            throw new NotImplementedException();
+            
         }
 
         private void SecondLayer()
