@@ -10,6 +10,8 @@ namespace RubiksCube
     {
         private RubiksColor?[,] _face;
 
+        public RubiksColor? this[int x, int y] { get { return _face[x, y]; } }
+
         public LastLayerConfiguration(IEnumerable<Cubie> face)
         {
             _face = new RubiksColor?[5, 5];
@@ -35,14 +37,19 @@ namespace RubiksCube
             _face = config;
         }
 
-        public bool Matches(LastLayerConfiguration configuration)
+        public bool Matches(LastLayerConfiguration conf)
         {
             for (int x = 0; x < _face.GetLength(0); x++)
                 for (int y = 0; y < _face.GetLength(1); y++)
-                    if (this._face[x, y] != RubiksColor.Any
-                        && configuration._face[x, y] != RubiksColor.Any
-                        && this._face[x, y] != configuration._face[x, y])
+                {
+                    if (this[x, y] == RubiksColor.Yellow && conf[x, y] == RubiksColor.NonYellow)
                         return false;
+                    if (conf[x, y] == RubiksColor.Yellow && this[x, y] == RubiksColor.NonYellow)
+                        return false;
+                    if (this[x, y] != RubiksColor.Any && conf[x, y] != RubiksColor.Any &&
+                        this[x, y] != conf[x, y])
+                        return false;
+                }
 
             return true;
         }

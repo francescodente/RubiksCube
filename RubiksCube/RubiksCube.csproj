@@ -42,8 +42,7 @@
     <Compile Include="Algorithms.cs" />
     <Compile Include="AlgorithmViewPair.cs" />
     <Compile Include="Axis.cs" />
-    <Compile Include="ColorMatch.cs" />
-    <Compile Include="LastLayerMask.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="OllCases.cs" />
     <Compile Include="Cube.cs" />
     <Compile Include="CubeSolution.cs" />

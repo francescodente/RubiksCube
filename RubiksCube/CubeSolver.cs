@@ -39,12 +39,38 @@ namespace RubiksCube
 
         private void PLL()
         {
-            throw new NotImplementedException();
+            ChangeView(new CubeView(SIDE_COLORS[0], FINAL_COLOR));
+
+            IEnumerable<Cubie> corners = _cube.GetFaceCubies(Face.Up).Corners();
+
+            while ()
         }
 
         private void OLL()
         {
             YellowCrossCase();
+
+            foreach (RubiksColor col in SIDE_COLORS)
+            {
+                ChangeView(new CubeView(col, FINAL_COLOR));
+
+                LastLayerConfiguration conf = new LastLayerConfiguration(_cube.GetFaceCubies(Face.Up));
+
+                if (conf.Matches(OllCases.OLLSituation1))
+                    AddMoveList(Algorithms.OLLSituation1);
+                else if (conf.Matches(OllCases.OLLSituation2))
+                    AddMoveList(Algorithms.OLLSituation2);
+                else if (conf.Matches(OllCases.OLLSituation3))
+                    AddMoveList(Algorithms.OLLSituation3);
+                else if (conf.Matches(OllCases.OLLSituation4))
+                    AddMoveList(Algorithms.OLLSituation4);
+                else if (conf.Matches(OllCases.OLLSituation5))
+                    AddMoveList(Algorithms.OLLSituation5);
+                else if (conf.Matches(OllCases.OLLSituation6))
+                    AddMoveList(Algorithms.OLLSituation6);
+                else if (conf.Matches(OllCases.OLLSituation7))
+                    AddMoveList(Algorithms.OLLSituation7);
+            }
         }
 
         private void SecondLayer()

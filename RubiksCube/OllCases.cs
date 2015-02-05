@@ -20,18 +20,18 @@ namespace RubiksCube
         public static LastLayerConfiguration YellowLine = new LastLayerConfiguration(new RubiksColor?[,]
         {
             { null,                  RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any,       null               },
-            { RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any    },
+            { RubiksColor.Any,       RubiksColor.Any,       RubiksColor.NonYellow, RubiksColor.Any,       RubiksColor.Any    },
             { RubiksColor.Any,       RubiksColor.Yellow,    RubiksColor.Yellow,    RubiksColor.Yellow,    RubiksColor.Any    },
-            { RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any    },
+            { RubiksColor.Any,       RubiksColor.Any,       RubiksColor.NonYellow, RubiksColor.Any,       RubiksColor.Any    },
             { null,                  RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any,       null               }
         });
 
         public static LastLayerConfiguration YellowCenter = new LastLayerConfiguration(new RubiksColor?[,]
         {
             { null,                  RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any,       null               },
-            { RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any    },
-            { RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Yellow,    RubiksColor.Any,       RubiksColor.Any    },
-            { RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any    },
+            { RubiksColor.Any,       RubiksColor.Any,       RubiksColor.NonYellow, RubiksColor.Any,       RubiksColor.Any    },
+            { RubiksColor.Any,       RubiksColor.NonYellow, RubiksColor.Yellow,    RubiksColor.NonYellow, RubiksColor.Any    },
+            { RubiksColor.Any,       RubiksColor.Any,       RubiksColor.NonYellow, RubiksColor.Any,       RubiksColor.Any    },
             { null,                  RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any,       null               }
         });
 

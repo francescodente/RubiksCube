@@ -19,9 +19,7 @@ namespace RubiksCube
         {
             get
             {
-                foreach (Cubie c in _cubies)
-                    if (c.CubieType == CubieType.Center)
-                        yield return c;
+                return _cubies.Centers();
             }
         }
 
@@ -29,9 +27,7 @@ namespace RubiksCube
         {
             get
             {
-                foreach (Cubie c in _cubies)
-                    if (c.CubieType == CubieType.Edge)
-                        yield return c;
+                return _cubies.Edges();
             }
         }
 
@@ -39,9 +35,7 @@ namespace RubiksCube
         {
             get
             {
-                foreach (Cubie c in _cubies)
-                    if (c.CubieType == CubieType.Corner)
-                        yield return c;
+                _cubies.Corners();
             }
         }
 
