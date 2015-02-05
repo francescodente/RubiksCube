@@ -8,94 +8,94 @@ namespace RubiksCube
 {
     public static class OllCases
     {
-        public static UpperLayerConfiguration YellowL = new UpperLayerConfiguration(new RubiksColor?[,]
+        public static LastLayerConfiguration YellowL = new LastLayerConfiguration(new RubiksColor?[,]
         {
-            { null,               RubiksColor.Any,    RubiksColor.Any,    RubiksColor.Any,    null               },
-            { RubiksColor.Any,    RubiksColor.Any,    RubiksColor.Yellow, RubiksColor.Any,    RubiksColor.Any    },
-            { RubiksColor.Any,    RubiksColor.Yellow, RubiksColor.Yellow, RubiksColor.Any,    RubiksColor.Any    },
-            { RubiksColor.Any,    RubiksColor.Any,    RubiksColor.Any,    RubiksColor.Any,    RubiksColor.Any    },
-            { null,               RubiksColor.Any,    RubiksColor.Any,    RubiksColor.Any,    null               }
+            { null,                  RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any,       null               },
+            { RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Yellow,    RubiksColor.Any,       RubiksColor.Any    },
+            { RubiksColor.Any,       RubiksColor.Yellow,    RubiksColor.Yellow,    RubiksColor.NonYellow, RubiksColor.Any    },
+            { RubiksColor.Any,       RubiksColor.Any,       RubiksColor.NonYellow, RubiksColor.Any,       RubiksColor.Any    },
+            { null,                  RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any,       null               }
         });
 
-        public static UpperLayerConfiguration YellowLine = new UpperLayerConfiguration(new RubiksColor?[,]
+        public static LastLayerConfiguration YellowLine = new LastLayerConfiguration(new RubiksColor?[,]
         {
-            { null,               RubiksColor.Any,    RubiksColor.Any,    RubiksColor.Any,    null               },
-            { RubiksColor.Any,    RubiksColor.Any,    RubiksColor.Any,    RubiksColor.Any,    RubiksColor.Any    },
-            { RubiksColor.Any,    RubiksColor.Yellow, RubiksColor.Yellow, RubiksColor.Yellow, RubiksColor.Any    },
-            { RubiksColor.Any,    RubiksColor.Any,    RubiksColor.Any,    RubiksColor.Any,    RubiksColor.Any    },
-            { null,               RubiksColor.Any,    RubiksColor.Any,    RubiksColor.Any,    null               }
+            { null,                  RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any,       null               },
+            { RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any    },
+            { RubiksColor.Any,       RubiksColor.Yellow,    RubiksColor.Yellow,    RubiksColor.Yellow,    RubiksColor.Any    },
+            { RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any    },
+            { null,                  RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any,       null               }
         });
 
-        public static UpperLayerConfiguration YellowCenter = new UpperLayerConfiguration(new RubiksColor?[,]
+        public static LastLayerConfiguration YellowCenter = new LastLayerConfiguration(new RubiksColor?[,]
         {
-            { null,               RubiksColor.Any,    RubiksColor.Any,    RubiksColor.Any,    null               },
-            { RubiksColor.Any,    RubiksColor.Any,    RubiksColor.Any,    RubiksColor.Any,    RubiksColor.Any    },
-            { RubiksColor.Any,    RubiksColor.Any,    RubiksColor.Yellow, RubiksColor.Any,    RubiksColor.Any    },
-            { RubiksColor.Any,    RubiksColor.Any,    RubiksColor.Any,    RubiksColor.Any,    RubiksColor.Any    },
-            { null,               RubiksColor.Any,    RubiksColor.Any,    RubiksColor.Any,    null               }
+            { null,                  RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any,       null               },
+            { RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any    },
+            { RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Yellow,    RubiksColor.Any,       RubiksColor.Any    },
+            { RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any    },
+            { null,                  RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any,       null               }
         });
 
-        public static UpperLayerConfiguration OLLSituation1 = new UpperLayerConfiguration(new RubiksColor?[,]
+        public static LastLayerConfiguration OLLSituation1 = new LastLayerConfiguration(new RubiksColor?[,]
         {
-            { null,               RubiksColor.Any,    RubiksColor.Any,    RubiksColor.Yellow, null               },
-            { RubiksColor.Any,    RubiksColor.Yellow, RubiksColor.Yellow, RubiksColor.Any,    RubiksColor.Any    },
-            { RubiksColor.Any,    RubiksColor.Yellow, RubiksColor.Yellow, RubiksColor.Yellow, RubiksColor.Any    },
-            { RubiksColor.Any,    RubiksColor.Any,    RubiksColor.Yellow, RubiksColor.Any,    RubiksColor.Yellow },
-            { null,               RubiksColor.Yellow, RubiksColor.Any,    RubiksColor.Any,    null               }
+            { null,                  RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Yellow,    null               },
+            { RubiksColor.Any,       RubiksColor.Yellow,    RubiksColor.Yellow,    RubiksColor.Any,       RubiksColor.Any    },
+            { RubiksColor.Any,       RubiksColor.Yellow,    RubiksColor.Yellow,    RubiksColor.Yellow,    RubiksColor.Any    },
+            { RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Yellow,    RubiksColor.Any,       RubiksColor.Yellow },
+            { null,                  RubiksColor.Yellow,    RubiksColor.Any,       RubiksColor.Any,       null               }
         });
 
-        public static UpperLayerConfiguration OLLSituation2 = new UpperLayerConfiguration(new RubiksColor?[,]
+        public static LastLayerConfiguration OLLSituation2 = new LastLayerConfiguration(new RubiksColor?[,]
         {
-            { null,               RubiksColor.Yellow, RubiksColor.Any,    RubiksColor.Any,    null               },
-            { RubiksColor.Any,    RubiksColor.Any,    RubiksColor.Yellow, RubiksColor.Yellow, RubiksColor.Any    },
-            { RubiksColor.Any,    RubiksColor.Yellow, RubiksColor.Yellow, RubiksColor.Yellow, RubiksColor.Any    },
-            { RubiksColor.Yellow, RubiksColor.Any,    RubiksColor.Yellow, RubiksColor.Any,    RubiksColor.Any    },
-            { null,               RubiksColor.Any,    RubiksColor.Any,    RubiksColor.Yellow, null               }
+            { null,                  RubiksColor.Yellow,    RubiksColor.Any,       RubiksColor.Any,       null               },
+            { RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Yellow,    RubiksColor.Yellow,    RubiksColor.Any    },
+            { RubiksColor.Any,       RubiksColor.Yellow,    RubiksColor.Yellow,    RubiksColor.Yellow,    RubiksColor.Any    },
+            { RubiksColor.Yellow,    RubiksColor.Any,       RubiksColor.Yellow,    RubiksColor.Any,       RubiksColor.Any    },
+            { null,                  RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Yellow,    null               }
         });
 
-        public static UpperLayerConfiguration OLLSituation3 = new UpperLayerConfiguration(new RubiksColor?[,]
+        public static LastLayerConfiguration OLLSituation3 = new LastLayerConfiguration(new RubiksColor?[,]
         {
-            { null,               RubiksColor.Yellow, RubiksColor.Any,    RubiksColor.Yellow, null               },
-            { RubiksColor.Any,    RubiksColor.Any,    RubiksColor.Yellow, RubiksColor.Any,    RubiksColor.Any    },
-            { RubiksColor.Any,    RubiksColor.Yellow, RubiksColor.Yellow, RubiksColor.Yellow, RubiksColor.Any    },
-            { RubiksColor.Any,    RubiksColor.Yellow, RubiksColor.Yellow, RubiksColor.Yellow, RubiksColor.Any    },
-            { null,               RubiksColor.Any,    RubiksColor.Any,    RubiksColor.Any,    null               }
+            { null,                  RubiksColor.Yellow,    RubiksColor.Any,       RubiksColor.Yellow,    null               },
+            { RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Yellow,    RubiksColor.Any,       RubiksColor.Any    },
+            { RubiksColor.Any,       RubiksColor.Yellow,    RubiksColor.Yellow,    RubiksColor.Yellow,    RubiksColor.Any    },
+            { RubiksColor.Any,       RubiksColor.Yellow,    RubiksColor.Yellow,    RubiksColor.Yellow,    RubiksColor.Any    },
+            { null,                  RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any,       null               }
         });
 
-        public static UpperLayerConfiguration OLLSituation4 = new UpperLayerConfiguration(new RubiksColor?[,]
+        public static LastLayerConfiguration OLLSituation4 = new LastLayerConfiguration(new RubiksColor?[,]
         {
-            { null,               RubiksColor.Any,    RubiksColor.Any,    RubiksColor.Yellow, null               },
-            { RubiksColor.Any,    RubiksColor.Yellow, RubiksColor.Yellow, RubiksColor.Any,    RubiksColor.Any    },
-            { RubiksColor.Any,    RubiksColor.Yellow, RubiksColor.Yellow, RubiksColor.Yellow, RubiksColor.Any    },
-            { RubiksColor.Any,    RubiksColor.Yellow, RubiksColor.Yellow, RubiksColor.Any,    RubiksColor.Any    },
-            { null,               RubiksColor.Any,    RubiksColor.Any,    RubiksColor.Yellow, null               }
+            { null,                  RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Yellow,    null               },
+            { RubiksColor.Any,       RubiksColor.Yellow,    RubiksColor.Yellow,    RubiksColor.Any,       RubiksColor.Any    },
+            { RubiksColor.Any,       RubiksColor.Yellow,    RubiksColor.Yellow,    RubiksColor.Yellow,    RubiksColor.Any    },
+            { RubiksColor.Any,       RubiksColor.Yellow,    RubiksColor.Yellow,    RubiksColor.Any,       RubiksColor.Any    },
+            { null,                  RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Yellow,    null               }
         });
 
-        public static UpperLayerConfiguration OLLSituation5 = new UpperLayerConfiguration(new RubiksColor?[,]
+        public static LastLayerConfiguration OLLSituation5 = new LastLayerConfiguration(new RubiksColor?[,]
         {
-            { null,               RubiksColor.Any,    RubiksColor.Any,    RubiksColor.Yellow, null               },
-            { RubiksColor.Any,    RubiksColor.Yellow, RubiksColor.Yellow, RubiksColor.Any,    RubiksColor.Any    },
-            { RubiksColor.Any,    RubiksColor.Yellow, RubiksColor.Yellow, RubiksColor.Yellow, RubiksColor.Any    },
-            { RubiksColor.Yellow, RubiksColor.Any,    RubiksColor.Yellow, RubiksColor.Yellow, RubiksColor.Any    },
-            { null,               RubiksColor.Any,    RubiksColor.Any,    RubiksColor.Any,    null               }
+            { null,                  RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Yellow,    null               },
+            { RubiksColor.Any,       RubiksColor.Yellow,    RubiksColor.Yellow,    RubiksColor.Any,       RubiksColor.Any    },
+            { RubiksColor.Any,       RubiksColor.Yellow,    RubiksColor.Yellow,    RubiksColor.Yellow,    RubiksColor.Any    },
+            { RubiksColor.Yellow,    RubiksColor.Any,       RubiksColor.Yellow,    RubiksColor.Yellow,    RubiksColor.Any    },
+            { null,                  RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any,       null               }
         });
 
-        public static UpperLayerConfiguration OLLSituation6 = new UpperLayerConfiguration(new RubiksColor?[,]
+        public static LastLayerConfiguration OLLSituation6 = new LastLayerConfiguration(new RubiksColor?[,]
         {
-            { null,               RubiksColor.Any,    RubiksColor.Any,    RubiksColor.Yellow, null               },
-            { RubiksColor.Yellow, RubiksColor.Any,    RubiksColor.Yellow, RubiksColor.Any,    RubiksColor.Any    },
-            { RubiksColor.Any,    RubiksColor.Yellow, RubiksColor.Yellow, RubiksColor.Yellow, RubiksColor.Any    },
-            { RubiksColor.Yellow, RubiksColor.Any,    RubiksColor.Yellow, RubiksColor.Any,    RubiksColor.Any    },
-            { null,               RubiksColor.Any,    RubiksColor.Any,    RubiksColor.Yellow, null               }
+            { null,                  RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Yellow,    null               },
+            { RubiksColor.Yellow,    RubiksColor.Any,       RubiksColor.Yellow,    RubiksColor.Any,       RubiksColor.Any    },
+            { RubiksColor.Any,       RubiksColor.Yellow,    RubiksColor.Yellow,    RubiksColor.Yellow,    RubiksColor.Any    },
+            { RubiksColor.Yellow,    RubiksColor.Any,       RubiksColor.Yellow,    RubiksColor.Any,       RubiksColor.Any    },
+            { null,                  RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Yellow,    null               }
         });
 
-        public static UpperLayerConfiguration OLLSituation7 = new UpperLayerConfiguration(new RubiksColor?[,]
+        public static LastLayerConfiguration OLLSituation7 = new LastLayerConfiguration(new RubiksColor?[,]
         {
-            { null,               RubiksColor.Any,    RubiksColor.Any,    RubiksColor.Any,    null               },
-            { RubiksColor.Yellow, RubiksColor.Any,    RubiksColor.Yellow, RubiksColor.Any,    RubiksColor.Yellow },
-            { RubiksColor.Any,    RubiksColor.Yellow, RubiksColor.Yellow, RubiksColor.Yellow, RubiksColor.Any    },
-            { RubiksColor.Yellow, RubiksColor.Any,    RubiksColor.Yellow, RubiksColor.Any,    RubiksColor.Yellow },
-            { null,               RubiksColor.Any,    RubiksColor.Any,    RubiksColor.Any,    null               }
+            { null,                  RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any,       null               },
+            { RubiksColor.Yellow,    RubiksColor.Any,       RubiksColor.Yellow,    RubiksColor.Any,       RubiksColor.Yellow },
+            { RubiksColor.Any,       RubiksColor.Yellow,    RubiksColor.Yellow,    RubiksColor.Yellow,    RubiksColor.Any    },
+            { RubiksColor.Yellow,    RubiksColor.Any,       RubiksColor.Yellow,    RubiksColor.Any,       RubiksColor.Yellow },
+            { null,                  RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any,       null               }
         });
     }
 }

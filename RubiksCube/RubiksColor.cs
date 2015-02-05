@@ -14,5 +14,6 @@ namespace RubiksCube
         Red,
         Orange,
         Any,
+        NonYellow
     }
 }

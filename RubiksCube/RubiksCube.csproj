@@ -42,6 +42,8 @@
     <Compile Include="Algorithms.cs" />
     <Compile Include="AlgorithmViewPair.cs" />
     <Compile Include="Axis.cs" />
+    <Compile Include="ColorMatch.cs" />
+    <Compile Include="LastLayerMask.cs" />
     <Compile Include="OllCases.cs" />
     <Compile Include="Cube.cs" />
     <Compile Include="CubeSolution.cs" />
@@ -53,7 +55,7 @@
     <Compile Include="Move.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RubiksColor.cs" />
-    <Compile Include="UpperLayerConfiguration.cs" />
+    <Compile Include="LastLayerConfiguration.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

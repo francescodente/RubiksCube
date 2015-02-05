@@ -44,7 +44,7 @@ namespace RubiksCube
 
         private void OLL()
         {
-            
+            YellowCrossCase();
         }
 
         private void SecondLayer()
@@ -201,7 +201,7 @@ namespace RubiksCube
 
         private void ChangeView(CubeView view)
         {
-            if (_currentView.FrontColor != view.FrontColor && _currentView.UpColor != view.UpColor)
+            if (_currentView.FrontColor != view.FrontColor && _currentView.UpColor != view.UpColor && _currentAlgorithm.Count > 0)
             {
                 Solution.Add(new AlgorithmViewPair(_currentAlgorithm, _currentView));
                 _currentView = view;
@@ -219,6 +219,26 @@ namespace RubiksCube
         {
             _currentAlgorithm.AddRange(moveList);
             Algorithms.ExecuteAlgorithm(_cube, moveList);
+        }
+
+        private void YellowCrossCase()
+        {
+            foreach (RubiksColor col in SIDE_COLORS)
+            {
+                ChangeView(new CubeView(col, FINAL_COLOR));
+
+                LastLayerConfiguration config = new LastLayerConfiguration(_cube.GetFaceCubies(Face.Up));
+
+                if (config.Matches(OllCases.YellowCenter))
+                {
+                    AddMoveList(Algorithms.OLLCross1);
+                    YellowCrossCase();
+                }
+                else if (config.Matches(OllCases.YellowL))
+                    AddMoveList(Algorithms.OLLCross2);
+                else
+                    AddMoveList(Algorithms.OLLCross1);
+            }
         }
     }
 }
