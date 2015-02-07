@@ -39,11 +39,31 @@ namespace RubiksCube
 
         private void PLL()
         {
+			// Corners.
             ChangeView(new CubeView(SIDE_COLORS[0], FINAL_COLOR));
 
             IEnumerable<Cubie> corners = _cube.GetFaceCubies(Face.Up).Corners();
-
-            while ()
+			bool onlyOneCorner = false;
+			
+            for (int i = 0; i < 4 && !onlyOneCorner; i++)
+			{
+				onlyOneCorner = corners.CorrectCubies.Count<Cubie>() == 1;
+				if (!onlyOneCorner)
+					AddMove(Move.Up);
+			}
+			
+			for (int c = 0; !_cube.IsCubiePlacedCorrectly(_cube.FindCubie(0, 0, 0)); c++)
+				ChangeView(new CubeView(SIDE_COLORS[c], FINAL_COLOR));
+			
+			if (onlyOneCorner)
+				AddMoveList(Algorithms.PLLCornerDoubleExchange);
+			else if (_cube.FindCubie(2, 0, 0).FrontColor == _cube.FindCubie(2, 1, 1).RightColor)
+				AddMoveList(Algorithms.PLLCornerCounterClockwise);
+			else
+				AddMoveList(Algorithms.PLLCornerClockwise);
+			
+			// Edges
+			
         }
 
         private void OLL()

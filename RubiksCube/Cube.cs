@@ -252,9 +252,13 @@ namespace RubiksCube
             SetView(view.FrontColor, view.UpColor);
         }
 
-        public void GetFaceColor(Face f)
-        {
-            
-        }
+        public Cubie FindCubie(int x, int y, int z)
+		{
+			foreach (Cubie c in _cubies)
+				if (c.X == x && c.Y == y && c.Z == z)
+					return c;
+				
+			return null;
+		}
     }
 }
