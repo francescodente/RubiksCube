@@ -5,6 +5,10 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RubiksCube", "RubiksCube\RubiksCube.csproj", "{2082CB3E-D8C1-4065-8016-6899994DEDAA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{62512176-468E-4F99-8004-8FEE34BD1AA7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{09538113-1550-4817-B1AB-1AE1343B6C0B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,8 +19,15 @@ Global
 		{2082CB3E-D8C1-4065-8016-6899994DEDAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2082CB3E-D8C1-4065-8016-6899994DEDAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2082CB3E-D8C1-4065-8016-6899994DEDAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09538113-1550-4817-B1AB-1AE1343B6C0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09538113-1550-4817-B1AB-1AE1343B6C0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09538113-1550-4817-B1AB-1AE1343B6C0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09538113-1550-4817-B1AB-1AE1343B6C0B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{09538113-1550-4817-B1AB-1AE1343B6C0B} = {62512176-468E-4F99-8004-8FEE34BD1AA7}
 	EndGlobalSection
 EndGlobal

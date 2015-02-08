@@ -68,29 +68,36 @@ namespace RubiksCube
 
         public void Rotate(Axis axis, bool reverse)
         {
-            RubiksColor?[] newColors;
+            RubiksColor?[] newColors = null;
 
             switch (axis)
             {
                 case Axis.X:
                     if (!reverse)
-                        newColors = new RubiksColor?[] { DownColor, UpColor, RightColor, LeftColor, FrontColor, BackColor };
-                    else
                         newColors = new RubiksColor?[] { UpColor, DownColor, RightColor, LeftColor, BackColor, FrontColor };
+                    else
+                        newColors = new RubiksColor?[] { DownColor, UpColor, RightColor, LeftColor, FrontColor, BackColor };
                     break;
                 case Axis.Y:
                     if (!reverse)
-                        newColors = new RubiksColor?[] { LeftColor, RightColor, FrontColor, BackColor, UpColor, DownColor };
-                    else
                         newColors = new RubiksColor?[] { RightColor, LeftColor, BackColor, FrontColor, UpColor, DownColor };
+                    else
+                        newColors = new RubiksColor?[] { LeftColor, RightColor, FrontColor, BackColor, UpColor, DownColor };
                     break;
                 case Axis.Z:
                     if (!reverse)
-                        newColors = new RubiksColor?[] { FrontColor, BackColor, DownColor, UpColor, LeftColor, RightColor };
+                        newColors = new RubiksColor?[] { FrontColor, BackColor, DownColor, UpColor, RightColor, LeftColor };
                     else
-                        newColors = new RubiksColor?[] { FrontColor, BackColor, UpColor, DownColor, RightColor, LeftColor };
+                        newColors = new RubiksColor?[] { FrontColor, BackColor, UpColor, DownColor, LeftColor, RightColor };
                     break;
             }
+
+            Colors = newColors;
+        }
+
+        public RubiksColor? GetColor(Face f)
+        {
+            return Colors[(int)f - 1];
         }
     }
 }

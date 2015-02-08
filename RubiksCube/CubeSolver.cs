@@ -54,13 +54,18 @@ namespace RubiksCube
 			
 			for (int c = 0; !_cube.IsCubiePlacedCorrectly(_cube.FindCubie(0, 0, 0)); c++)
 				ChangeView(new CubeView(SIDE_COLORS[c], FINAL_COLOR));
-			
-			if (!onlyOneCorner)
-				AddMoveList(Algorithms.PLLCornerDoubleExchange);
-			else if (_cube.FindCubie(2, 0, 0).FrontColor == _cube.FindCubie(2, 1, 1).RightColor)
-				AddMoveList(Algorithms.PLLCornerCounterClockwise);
-			else
-				AddMoveList(Algorithms.PLLCornerClockwise);
+
+            if (!onlyOneCorner)
+            {
+                AddMoveList(Algorithms.PLLCornerDoubleExchange);
+
+                while (!_cube.IsCubiePlacedCorrectly(_cube.FindCubie(0, 0, 0)))
+                    AddMove(Move.Up);
+            }
+            else if (_cube.FindCubie(2, 0, 0).FrontColor == _cube.FindCubie(2, 1, 1).RightColor)
+                AddMoveList(Algorithms.PLLCornerCounterClockwise);
+            else
+                AddMoveList(Algorithms.PLLCornerClockwise);
 			
 			// Edges.
 			foreach (RubiksColor col in SIDE_COLORS)
@@ -69,8 +74,19 @@ namespace RubiksCube
 
                 Cubie frontEdge = _cube.FindCubie(1, 0, 0);
                 Cubie backEdge = _cube.FindCubie(1, 0, 2);
+                Cubie leftEdge = _cube.FindCubie(0, 0, 1);
 
-                if (_cube.IsCubiePlacedCorrectly(frontEdge) && )
+                if (_cube.IsCubiePlacedCorrectly(frontEdge))
+                {
+                    if ((int)leftEdge.LeftColor == -(int)frontEdge.FrontColor)
+                        AddMoveList(Algorithms.PLLEdgeClockwise);
+                    else
+                        AddMoveList(Algorithms.PLLEdgeCounterClockwise);
+                }
+                else if ((int)leftEdge.LeftColor == -(int)frontEdge.FrontColor)
+                    AddMoveList(Algorithms.PLLEdgeBackslashExchange);
+                else if ((int)frontEdge.FrontColor == -(int)backEdge.BackColor)
+                    AddMoveList(Algorithms.PLLEdgeCrossExchange);
             }
         }
 

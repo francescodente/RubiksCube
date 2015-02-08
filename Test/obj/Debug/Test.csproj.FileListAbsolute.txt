@@ -1,0 +1,8 @@
+C:\Users\Salvatore_\Documents\Visual Studio 2013\Projects\RubiksCube\Test\bin\Debug\Test.exe.config
+C:\Users\Salvatore_\Documents\Visual Studio 2013\Projects\RubiksCube\Test\bin\Debug\Test.exe
+C:\Users\Salvatore_\Documents\Visual Studio 2013\Projects\RubiksCube\Test\bin\Debug\Test.pdb
+C:\Users\Salvatore_\Documents\Visual Studio 2013\Projects\RubiksCube\Test\bin\Debug\RubiksCube.dll
+C:\Users\Salvatore_\Documents\Visual Studio 2013\Projects\RubiksCube\Test\bin\Debug\RubiksCube.pdb
+C:\Users\Salvatore_\Documents\Visual Studio 2013\Projects\RubiksCube\Test\obj\Debug\Test.csprojResolveAssemblyReference.cache
+C:\Users\Salvatore_\Documents\Visual Studio 2013\Projects\RubiksCube\Test\obj\Debug\Test.exe
+C:\Users\Salvatore_\Documents\Visual Studio 2013\Projects\RubiksCube\Test\obj\Debug\Test.pdb

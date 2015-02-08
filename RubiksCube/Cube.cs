@@ -35,7 +35,7 @@ namespace RubiksCube
         {
             get
             {
-                _cubies.Corners();
+                return _cubies.Corners();
             }
         }
 
@@ -76,46 +76,40 @@ namespace RubiksCube
                         _cubies.Add(new Cubie(x, y, z, this));
         }
 
-        internal void RotateFace(Face face, bool reverse)
+        internal void RotateCubiesAroundAxis(IEnumerable<Cubie> cubies, Axis axis, bool reverse)
         {
-            foreach (Cubie c in GetFaceCubies(face))
+            foreach (Cubie c in cubies)
             {
                 int newX = c.X, newY = c.Y, newZ = c.Z;
 
                 if (reverse)
-                    switch (face)
+                    switch (axis)
                     {
-                        case Face.Back:
-                        case Face.Front:
+                        case Axis.Z:
                             newX = DIMENSION - 1 - c.Y;
                             newY = c.X;
                             break;
-                        case Face.Right:
-                        case Face.Left:
+                        case Axis.X:
                             newZ = DIMENSION - 1 - c.Y;
                             newY = c.Z;
                             break;
-                        case Face.Up:
-                        case Face.Down:
+                        case Axis.Y:
                             newX = DIMENSION - 1 - c.Z;
                             newZ = c.X;
                             break;
                     }
                 else
-                    switch (face)
+                    switch (axis)
                     {
-                        case Face.Back:
-                        case Face.Front:
+                        case Axis.Z:
                             newY = DIMENSION - 1 - c.X;
                             newX = c.Y;
                             break;
-                        case Face.Right:
-                        case Face.Left:
+                        case Axis.X:
                             newY = DIMENSION - 1 - c.Z;
                             newZ = c.Y;
                             break;
-                        case Face.Up:
-                        case Face.Down:
+                        case Axis.Y:
                             newZ = DIMENSION - 1 - c.X;
                             newX = c.Z;
                             break;
@@ -124,7 +118,19 @@ namespace RubiksCube
                 c.X = newX;
                 c.Y = newY;
                 c.Z = newZ;
+
+                c.Rotate(axis, reverse);
             }
+        }
+
+        internal void RotateFace(Face face, bool reverse)
+        {
+            if (face == Face.Front || face == Face.Back)
+                RotateCubiesAroundAxis(GetFaceCubies(face), Axis.Z, reverse);
+            else if (face == Face.Left || face == Face.Right)
+                RotateCubiesAroundAxis(GetFaceCubies(face), Axis.X, reverse);
+            else
+                RotateCubiesAroundAxis(GetFaceCubies(face), Axis.Y, reverse);
         }
 
         public Cube Clone()
@@ -151,6 +157,11 @@ namespace RubiksCube
             foreach (Cubie c in _cubies)
                 if (FaceContains(face, c))
                     yield return c;
+        }
+
+        public RubiksColor GetFaceColor(Face face)
+        {
+            return (RubiksColor)GetFaceCubies(face).Centers().ElementAt<Cubie>(0).GetColor(face);
         }
 
         public bool FaceContains(Face face, Cubie c)
@@ -208,19 +219,9 @@ namespace RubiksCube
 
         public bool IsCubiePlacedCorrectly(Cubie c)
         {
-            if (c.FrontColor != Solved[c.X + 1, c.Y, c.Z + 1])
-                return false;
-            if (c.BackColor != Solved[c.X + 1, c.Y + 2, c.Z + 1])
-                return false;
-            if (c.LeftColor != Solved[c.X, c.Y + 1, c.Z + 1])
-                return false;
-            if (c.RightColor != Solved[c.X + 2, c.Y + 1, c.Z + 1])
-                return false;
-            if (c.UpColor != Solved[c.X + 1, c.Y + 1, c.Z])
-                return false;
-            if (c.DownColor != Solved[c.X + 1, c.Y + 1, c.Z + 2])
-                return false;
-
+            foreach (Face f in Enum.GetValues(typeof(Face)))
+                if (c.GetColor(f) != null && c.GetColor(f) != GetFaceColor(f))
+                    return false;
             return true;
         }
             
@@ -244,7 +245,9 @@ namespace RubiksCube
 
         public void SetView(RubiksColor front, RubiksColor up)
         {
-            
+            Cubie center = FindCenter(front);
+
+
         }
 
         public void SetView(CubeView view)
@@ -268,6 +271,19 @@ namespace RubiksCube
                     return false;
 
             return true;
+        }
+
+        public void Scramble(int n)
+        {
+            Random rnd = new Random();
+
+            for (int i = 0; i < n; i++)
+            {
+                Face f = (Face)rnd.Next(1, 7);
+                bool rev = rnd.Next(0, 2) == 1;
+
+                RotateFace(f, rev);
+            }
         }
     }
 }
