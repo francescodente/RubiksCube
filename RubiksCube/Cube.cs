@@ -260,5 +260,14 @@ namespace RubiksCube
 				
 			return null;
 		}
+
+        public bool IsSolved()
+        {
+            foreach (Cubie c in _cubies)
+                if (!IsCubiePlacedCorrectly(c))
+                    return false;
+
+            return true;
+        }
     }
 }

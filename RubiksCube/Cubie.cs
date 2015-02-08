@@ -65,5 +65,32 @@ namespace RubiksCube
 
             return clone;
         }
+
+        public void Rotate(Axis axis, bool reverse)
+        {
+            RubiksColor?[] newColors;
+
+            switch (axis)
+            {
+                case Axis.X:
+                    if (!reverse)
+                        newColors = new RubiksColor?[] { DownColor, UpColor, RightColor, LeftColor, FrontColor, BackColor };
+                    else
+                        newColors = new RubiksColor?[] { UpColor, DownColor, RightColor, LeftColor, BackColor, FrontColor };
+                    break;
+                case Axis.Y:
+                    if (!reverse)
+                        newColors = new RubiksColor?[] { LeftColor, RightColor, FrontColor, BackColor, UpColor, DownColor };
+                    else
+                        newColors = new RubiksColor?[] { RightColor, LeftColor, BackColor, FrontColor, UpColor, DownColor };
+                    break;
+                case Axis.Z:
+                    if (!reverse)
+                        newColors = new RubiksColor?[] { FrontColor, BackColor, DownColor, UpColor, LeftColor, RightColor };
+                    else
+                        newColors = new RubiksColor?[] { FrontColor, BackColor, UpColor, DownColor, RightColor, LeftColor };
+                    break;
+            }
+        }
     }
 }

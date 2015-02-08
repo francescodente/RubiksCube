@@ -47,7 +47,7 @@ namespace RubiksCube
 			
             for (int i = 0; i < 4 && !onlyOneCorner; i++)
 			{
-				onlyOneCorner = corners.CorrectCubies.Count<Cubie>() == 1;
+				onlyOneCorner = corners.CorrectCubies(_cube).Count<Cubie>() == 1;
 				if (!onlyOneCorner)
 					AddMove(Move.Up);
 			}
@@ -55,15 +55,23 @@ namespace RubiksCube
 			for (int c = 0; !_cube.IsCubiePlacedCorrectly(_cube.FindCubie(0, 0, 0)); c++)
 				ChangeView(new CubeView(SIDE_COLORS[c], FINAL_COLOR));
 			
-			if (onlyOneCorner)
+			if (!onlyOneCorner)
 				AddMoveList(Algorithms.PLLCornerDoubleExchange);
 			else if (_cube.FindCubie(2, 0, 0).FrontColor == _cube.FindCubie(2, 1, 1).RightColor)
 				AddMoveList(Algorithms.PLLCornerCounterClockwise);
 			else
 				AddMoveList(Algorithms.PLLCornerClockwise);
 			
-			// Edges
-			
+			// Edges.
+			foreach (RubiksColor col in SIDE_COLORS)
+            {
+                ChangeView(new CubeView(col, FINAL_COLOR));
+
+                Cubie frontEdge = _cube.FindCubie(1, 0, 0);
+                Cubie backEdge = _cube.FindCubie(1, 0, 2);
+
+                if (_cube.IsCubiePlacedCorrectly(frontEdge) && )
+            }
         }
 
         private void OLL()

@@ -260,34 +260,34 @@ namespace RubiksCube
 
         public static Move[] PLLEdgeClockwise = 
         {
-            Move.Right,
-            Move.Right,
+            Move.LeftPrime,
+            Move.LeftPrime,
             Move.Up,
-            Move.Right,
+            Move.Left,
             Move.Up,
-            Move.RightPrime,
+            Move.LeftPrime,
             Move.UpPrime,
-            Move.RightPrime,
+            Move.LeftPrime,
             Move.UpPrime,
-            Move.RightPrime,
+            Move.LeftPrime,
             Move.Up,
-            Move.RightPrime
+            Move.LeftPrime
         };
 
         public static Move[] PLLEdgeCounterClockwise = 
         {
-            Move.LeftPrime,
-            Move.LeftPrime,
+            Move.Right,
+            Move.Right,
             Move.UpPrime,
-            Move.LeftPrime,
+            Move.RightPrime,
             Move.UpPrime,
-            Move.Left,
+            Move.Right,
             Move.Up,
-            Move.Left,
+            Move.Right,
             Move.Up,
-            Move.Left,
+            Move.Right,
             Move.UpPrime,
-            Move.Left
+            Move.Right
         };
 
         public static Move[] PLLEdgeCrossExchange = 
