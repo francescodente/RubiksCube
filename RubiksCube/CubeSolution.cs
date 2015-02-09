@@ -63,7 +63,23 @@ namespace RubiksCube
 
         public void Optimize()
         {
-
+            foreach (AlgorithmViewPair pair in _pairs)
+                for (int i = 0; i < pair.Algorithm.Count; i++)
+                {
+                    if (i < pair.Algorithm.Count - 1 && (int)pair.Algorithm[i] == -(int)pair.Algorithm[i + 1])
+                    {
+                        pair.Algorithm.RemoveAt(i);
+                        pair.Algorithm.RemoveAt(i);
+                        i--;
+                    }
+                    else if (i < pair.Algorithm.Count - 2 && pair.Algorithm[i] == pair.Algorithm[i + 1] && pair.Algorithm[i] == pair.Algorithm[i + 2])
+                    {
+                        pair.Algorithm[i] = (Move)(-(int)pair.Algorithm[i]);
+                        pair.Algorithm.RemoveAt(i + 1);
+                        pair.Algorithm.RemoveAt(i + 1);
+                        i--;
+                    }
+                }
         }
     }
 }

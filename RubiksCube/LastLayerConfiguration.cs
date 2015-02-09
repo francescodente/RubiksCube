@@ -8,6 +8,8 @@ namespace RubiksCube
 {
     public class LastLayerConfiguration
     {
+        const int DIM = 3;
+
         private RubiksColor?[,] _face;
 
         public RubiksColor? this[int x, int y] { get { return _face[x, y]; } }
@@ -18,17 +20,17 @@ namespace RubiksCube
 
             foreach (Cubie c in face)
             {
-                _face[c.X + 1, 1 - c.Z] = c.UpColor;
+                _face[DIM - c.Z, c.X + 1] = c.UpColor;
 
                 if (c.X == 0)
-                    _face[0, 1 - c.Z] = c.LeftColor;
+                    _face[DIM - c.Z, 0] = c.LeftColor;
                 else if (c.X == 2)
-                    _face[4, 1 - c.Z] = c.RightColor;
+                    _face[DIM - c.Z, 4] = c.RightColor;
 
                 if (c.Z == 0)
-                    _face[c.X + 1, 4] = c.FrontColor;
+                    _face[4, c.X + 1] = c.FrontColor;
                 else if (c.Z == 2)
-                    _face[c.X + 1, 0] = c.BackColor;
+                    _face[0, c.X + 1] = c.BackColor;
             }
         }
 
@@ -42,12 +44,13 @@ namespace RubiksCube
             for (int x = 0; x < _face.GetLength(0); x++)
                 for (int y = 0; y < _face.GetLength(1); y++)
                 {
-                    if (this[x, y] == RubiksColor.Yellow && conf[x, y] == RubiksColor.NonYellow)
-                        return false;
-                    if (conf[x, y] == RubiksColor.Yellow && this[x, y] == RubiksColor.NonYellow)
-                        return false;
-                    if (this[x, y] != RubiksColor.Any && conf[x, y] != RubiksColor.Any &&
-                        this[x, y] != conf[x, y])
+                    if (this[x, y] == RubiksColor.NonYellow || conf[x, y] == RubiksColor.NonYellow)
+                    {
+                        if (this[x, y] == RubiksColor.Yellow || conf[x, y] == RubiksColor.Yellow)
+                            return false;
+                    }
+
+                    else if (this[x, y] != RubiksColor.Any && conf[x, y] != RubiksColor.Any && this[x, y] != conf[x, y])
                         return false;
                 }
 

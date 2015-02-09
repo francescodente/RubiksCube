@@ -16,26 +16,26 @@ namespace Test
         static void Main(string[] args)
         {
             Cube cube = new Cube();
-
-            cube.Scramble(20);
-
-            CubeSolver solver = new CubeSolver(cube);
-
-            //cube.Scramble(20);
-            //cube.SetView(RubiksColor.White, RubiksColor.Blue);
+            //cube.Scramble(2);
+            cube.SetView(RubiksColor.Red, RubiksColor.Green);
+            Algorithms.ExecuteAlgorithm(cube, Algorithms.SeparateCorner2);
 
             DrawFlatCube(cube);
 
-            solver.CrossPhase();
-            solver.FirstLayer();
-
-
-            CubeSolution solution = solver.Solution;
-
             if (RESOLVE)
+            {
+                CubeSolver solver = new CubeSolver(cube);
+
+                solver.Resolve();
+
+                CubeSolution solution = solver.Solution;
+                solution.Optimize();
+
                 foreach (AlgorithmViewPair pair in solution)
                 {
                     cube.SetView(pair.View);
+                    DrawFlatCube(cube);
+                    Wait();
 
                     foreach (Move move in pair.Algorithm)
                     {
@@ -45,10 +45,10 @@ namespace Test
 
                         DrawFlatCube(cube);
 
-                        Console.ReadLine();
-                        //Thread.Sleep(1000);
+                        Wait();
                     }
                 }
+            }
             else
                 while (true)
                 {
@@ -62,6 +62,11 @@ namespace Test
             Console.ReadLine();
         }
 
+        private static void Wait()
+        {
+            Console.ReadLine();
+        }
+
         private static ConsoleColor GetConsoleColor(RubiksColor? c)
         {
             switch (c)
@@ -69,11 +74,11 @@ namespace Test
                 case RubiksColor.Blue:
                     return ConsoleColor.Blue;
                 case RubiksColor.Green:
-                    return ConsoleColor.Green;
+                    return ConsoleColor.DarkGreen;
                 case RubiksColor.Orange:
-                    return ConsoleColor.DarkYellow;
-                case RubiksColor.Red:
                     return ConsoleColor.Red;
+                case RubiksColor.Red:
+                    return ConsoleColor.DarkRed;
                 case RubiksColor.White:
                     return ConsoleColor.White;
                 case RubiksColor.Yellow:
@@ -96,31 +101,14 @@ namespace Test
 
             for (int i = 0; i < DIM; i++)
                 for (int j = 0; j < DIM; j++)
+                {
                     matrix[i, j + DIM] = cube.FindCubie(i, j, 0).FrontColor;
-
-            for (int i = 0; i < DIM; i++)
-                for (int j = 0; j < DIM; j++)
                     matrix[i + DIM * 2, j + DIM] = cube.FindCubie(DIM - i - 1, j, DIM - 1).BackColor;
-
-            for (int i = 0; i < DIM; i++)
-                for (int j = 0; j < DIM; j++)
-                    matrix[i, j + DIM] = cube.FindCubie(i, j, 0).FrontColor;
-
-            for (int i = 0; i < DIM; i++)
-                for (int j = 0; j < DIM; j++)
                     matrix[i + DIM, j + DIM] = cube.FindCubie(DIM - 1, j, i).RightColor;
-
-            for (int i = 0; i < DIM; i++)
-                for (int j = 0; j < DIM; j++)
                     matrix[i + DIM * 3, j + DIM] = cube.FindCubie(0, j, DIM - i - 1).LeftColor;
-
-            for (int i = 0; i < DIM; i++)
-                for (int j = 0; j < DIM; j++)
                     matrix[i, j] = cube.FindCubie(i, 0, DIM - j - 1).UpColor;
-
-            for (int i = 0; i < DIM; i++)
-                for (int j = 0; j < DIM; j++)
                     matrix[i, j + DIM * 2] = cube.FindCubie(i, DIM - 1, j).DownColor;
+                }
 
             Console.Clear();
             for (int i = 0; i < matrix.GetLength(1); i++)
@@ -141,6 +129,28 @@ namespace Test
 
                 Console.WriteLine("\n");
             }
+        }
+
+        private static void Test()
+        {
+            LastLayerConfiguration YellowL = new LastLayerConfiguration(new RubiksColor?[,]
+            {
+                { RubiksColor.Green,     RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any,       null               },
+                { RubiksColor.Yellow,    RubiksColor.Any,       RubiksColor.Yellow,    RubiksColor.Any,       RubiksColor.Any    },
+                { RubiksColor.Red,       RubiksColor.Yellow,    RubiksColor.Yellow,    RubiksColor.NonYellow, RubiksColor.Any    },
+                { RubiksColor.Any,       RubiksColor.Any,       RubiksColor.NonYellow, RubiksColor.Any,       RubiksColor.Any    },
+                { null,                  RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any,       null               }
+            });
+            LastLayerConfiguration Yellow = new LastLayerConfiguration(new RubiksColor?[,]
+            {
+                { RubiksColor.Yellow,    RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any,       null               },
+                { RubiksColor.NonYellow, RubiksColor.Any,       RubiksColor.Yellow,    RubiksColor.Any,       RubiksColor.Any    },
+                { RubiksColor.Any,       RubiksColor.Yellow,    RubiksColor.Yellow,    RubiksColor.NonYellow, RubiksColor.Any    },
+                { RubiksColor.Red,       RubiksColor.Any,       RubiksColor.NonYellow, RubiksColor.Any,       RubiksColor.Any    },
+                { null,                  RubiksColor.Any,       RubiksColor.Any,       RubiksColor.Any,       null               }
+            });
+
+            Yellow.Matches(YellowL);
         }
     }
 }
