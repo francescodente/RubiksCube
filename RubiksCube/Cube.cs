@@ -245,9 +245,17 @@ namespace RubiksCube
 
         public void SetView(RubiksColor front, RubiksColor up)
         {
-            Cubie center = FindCenter(front);
+            Cubie centerWithFrontColor = FindCenter(front);
 
+            if (centerWithFrontColor.Y == 1)
+                while (FindCubie(1, 1, 0).FrontColor != front)
+                    RotateCubiesAroundAxis(_cubies, Axis.Y, false);
+            else
+                while (FindCubie(1, 1, 0).FrontColor != front)
+                    RotateCubiesAroundAxis(_cubies, Axis.X, false);
 
+            while (FindCubie(1, 0, 1).UpColor != up)
+                RotateCubiesAroundAxis(_cubies, Axis.Z, false);
         }
 
         public void SetView(CubeView view)

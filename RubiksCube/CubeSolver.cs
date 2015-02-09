@@ -22,14 +22,16 @@ namespace RubiksCube
 
         public CubeSolver(Cube cube)
         {
-            _cube = cube.Clone();
             Solution = new CubeSolution();
+            _cube = cube.Clone();
             _currentView = new CubeView(RubiksColor.Blue, RubiksColor.White);
             _currentAlgorithm = new List<Move>();
         }
 
         public void Resolve()
         {
+            Solution = new CubeSolution();
+
             CrossPhase();
             FirstLayer();
             SecondLayer();
@@ -37,7 +39,7 @@ namespace RubiksCube
             PLL();
         }
 
-        private void PLL()
+        public void PLL()
         {
 			// Corners.
             ChangeView(new CubeView(SIDE_COLORS[0], FINAL_COLOR));
@@ -90,7 +92,7 @@ namespace RubiksCube
             }
         }
 
-        private void OLL()
+        public void OLL()
         {
             YellowCrossCase();
 
@@ -117,12 +119,12 @@ namespace RubiksCube
             }
         }
 
-        private void SecondLayer()
+        public void SecondLayer()
         {
             for (int c = 0; c < SIDE_COLORS.Length; c++)
             {
                 // Gets the edge that needs to be moved.
-                Cubie edge = _cube.FindEdge(SIDE_COLORS[c], SIDE_COLORS[c + 1]);
+                Cubie edge = _cube.FindEdge(SIDE_COLORS[c], SIDE_COLORS[(c + 1) % 4]);
 
                 ChangeView(new CubeView(SIDE_COLORS[c], FINAL_COLOR));
 
@@ -142,7 +144,7 @@ namespace RubiksCube
 
                 // Sets the view.
                 if (edge.UpColor == SIDE_COLORS[c])
-                    ChangeView(new CubeView(SIDE_COLORS[c + 1], FINAL_COLOR));
+                    ChangeView(new CubeView(SIDE_COLORS[(c + 1) % 4], FINAL_COLOR));
                 else
                     ChangeView(new CubeView(SIDE_COLORS[c], FINAL_COLOR));
 
@@ -159,7 +161,7 @@ namespace RubiksCube
             }
         }
 
-        private void FirstLayer()
+        public void FirstLayer()
         {
             for (int c = 0; c < SIDE_COLORS.Length; c++)
             {
@@ -167,7 +169,7 @@ namespace RubiksCube
                 ChangeView(new CubeView(SIDE_COLORS[c], STARTING_COLOR));
 
                 // Gets the corner that needs to be moved.
-                Cubie corner = _cube.FindCorner(STARTING_COLOR, SIDE_COLORS[c], SIDE_COLORS[c + 1]);
+                Cubie corner = _cube.FindCorner(STARTING_COLOR, SIDE_COLORS[c], SIDE_COLORS[(c + 1) % 4]);
 
                 // If the corner is in the top layer, the program will rotate it until the corner is on
                 // the top-right of the front face, then use the separate algorithm and rotate the layer back.
@@ -200,7 +202,7 @@ namespace RubiksCube
             }
         }
 
-        private void CrossPhase()
+        public void CrossPhase()
         {
             foreach (RubiksColor col in SIDE_COLORS)
             {
@@ -271,9 +273,13 @@ namespace RubiksCube
 
         private void ChangeView(CubeView view)
         {
-            if (_currentView.FrontColor != view.FrontColor && _currentView.UpColor != view.UpColor && _currentAlgorithm.Count > 0)
+            if (_currentView.FrontColor != view.FrontColor || _currentView.UpColor != view.UpColor)
             {
-                Solution.Add(new AlgorithmViewPair(_currentAlgorithm, _currentView));
+                if (_currentAlgorithm.Count > 0)
+                {
+                    Solution.Add(new AlgorithmViewPair(_currentAlgorithm, _currentView));
+                    _currentAlgorithm = new List<Move>();
+                }
                 _currentView = view;
                 _cube.SetView(view);
             }
