@@ -10,7 +10,7 @@ namespace RubiksCube
     {
         const RubiksColor STARTING_COLOR = RubiksColor.White;
         const RubiksColor FINAL_COLOR = RubiksColor.Yellow;
-        const int DIMENSION = 3;
+        const int DIM = 3;
 
         public CubeSolution Solution { get; private set; }
         
@@ -34,9 +34,9 @@ namespace RubiksCube
 
             CrossPhase();
             FirstLayer();
-            //SecondLayer();
-            //OLL();
-            //PLL();
+            SecondLayer();
+            OLL();
+            PLL();
 
             if (_currentAlgorithm.Count > 0)
                 Solution.Add(new AlgorithmViewPair(_currentAlgorithm, _currentView));
@@ -58,7 +58,7 @@ namespace RubiksCube
 			}
 			
 			for (int c = 0; !_cube.IsCubiePlacedCorrectly(_cube.FindCubie(0, 0, 0)); c++)
-				ChangeView(new CubeView(SIDE_COLORS[c], FINAL_COLOR));
+                ChangeView(new CubeView(SIDE_COLORS[c], FINAL_COLOR));
 
             if (!onlyOneCorner)
             {
@@ -182,7 +182,7 @@ namespace RubiksCube
                     if (corner.Y == 0)
                     {
                         int rotations;
-                        for (rotations = 0; corner.Z != 0 && corner.X != 2; rotations++)
+                        for (rotations = 0; corner.Z != 0 || corner.X != 2; rotations++)
                             AddMove(Move.Up);
 
                         if (corner.FrontColor == STARTING_COLOR || corner.UpColor == STARTING_COLOR)
@@ -299,12 +299,16 @@ namespace RubiksCube
         {
             _currentAlgorithm.Add(m);
             _cube.RotateFace(m);
+
+            // Prova: da eliminare.
+            //DrawFlatCube(_cube);
+            //Console.ReadLine();
         }
 
         private void AddMoveList(IEnumerable<Move> moveList)
         {
-            _currentAlgorithm.AddRange(moveList);
-            Algorithms.ExecuteAlgorithm(_cube, moveList);
+            foreach (Move m in moveList)
+                AddMove(m);
         }
 
         private void YellowCrossCase()
@@ -324,6 +328,70 @@ namespace RubiksCube
                     AddMoveList(Algorithms.OLLCross2);
                 else if (config.Matches(OllCases.YellowLine))
                     AddMoveList(Algorithms.OLLCross1);
+            }
+        }
+
+        private static ConsoleColor GetConsoleColor(RubiksColor? c)
+        {
+            switch (c)
+            {
+                case RubiksColor.Blue:
+                    return ConsoleColor.Blue;
+                case RubiksColor.Green:
+                    return ConsoleColor.DarkGreen;
+                case RubiksColor.Orange:
+                    return ConsoleColor.Red;
+                case RubiksColor.Red:
+                    return ConsoleColor.DarkRed;
+                case RubiksColor.White:
+                    return ConsoleColor.White;
+                case RubiksColor.Yellow:
+                    return ConsoleColor.Yellow;
+            }
+
+            return ConsoleColor.Black;
+        }
+
+        private static void WriteColored(string m, ConsoleColor col)
+        {
+            Console.BackgroundColor = col;
+            Console.Write(m);
+            Console.BackgroundColor = ConsoleColor.Black;
+        }
+
+        private static void DrawFlatCube(Cube cube)
+        {
+            RubiksColor?[,] matrix = new RubiksColor?[DIM * 4, DIM * 3];
+
+            for (int i = 0; i < DIM; i++)
+                for (int j = 0; j < DIM; j++)
+                {
+                    matrix[i, j + DIM] = cube.FindCubie(i, j, 0).FrontColor;
+                    matrix[i + DIM * 2, j + DIM] = cube.FindCubie(DIM - i - 1, j, DIM - 1).BackColor;
+                    matrix[i + DIM, j + DIM] = cube.FindCubie(DIM - 1, j, i).RightColor;
+                    matrix[i + DIM * 3, j + DIM] = cube.FindCubie(0, j, DIM - i - 1).LeftColor;
+                    matrix[i, j] = cube.FindCubie(i, 0, DIM - j - 1).UpColor;
+                    matrix[i, j + DIM * 2] = cube.FindCubie(i, DIM - 1, j).DownColor;
+                }
+
+            Console.Clear();
+            for (int i = 0; i < matrix.GetLength(1); i++)
+            {
+                for (int j = 0; j < matrix.GetLength(0); j++)
+                {
+                    WriteColored("  ", GetConsoleColor(matrix[j, i]));
+                    if (j % 3 == 2)
+                        Console.Write("  ");
+                    else
+                        Console.Write(" ");
+                }
+
+                if (i % 3
+
+                    == 2)
+                    Console.WriteLine();
+
+                Console.WriteLine("\n");
             }
         }
     }

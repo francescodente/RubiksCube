@@ -11,14 +11,14 @@ namespace Test
     class Program
     {
         const int DIM = 3;
-        const bool RESOLVE = true;
+        const bool RESOLVE = true
+            ;
 
         static void Main(string[] args)
         {
             Cube cube = new Cube();
-            //cube.Scramble(2);
-            cube.SetView(RubiksColor.Red, RubiksColor.Green);
-            Algorithms.ExecuteAlgorithm(cube, Algorithms.SeparateCorner2);
+
+            cube.Scramble(10);
 
             DrawFlatCube(cube);
 
@@ -102,12 +102,12 @@ namespace Test
             for (int i = 0; i < DIM; i++)
                 for (int j = 0; j < DIM; j++)
                 {
-                    matrix[i, j + DIM] = cube.FindCubie(i, j, 0).FrontColor;
-                    matrix[i + DIM * 2, j + DIM] = cube.FindCubie(DIM - i - 1, j, DIM - 1).BackColor;
-                    matrix[i + DIM, j + DIM] = cube.FindCubie(DIM - 1, j, i).RightColor;
-                    matrix[i + DIM * 3, j + DIM] = cube.FindCubie(0, j, DIM - i - 1).LeftColor;
-                    matrix[i, j] = cube.FindCubie(i, 0, DIM - j - 1).UpColor;
-                    matrix[i, j + DIM * 2] = cube.FindCubie(i, DIM - 1, j).DownColor;
+                    matrix[i + DIM, j + DIM] = cube.FindCubie(i, j, 0).FrontColor;
+                    matrix[i + DIM * 3, j + DIM] = cube.FindCubie(DIM - i - 1, j, DIM - 1).BackColor;
+                    matrix[i + DIM * 2, j + DIM] = cube.FindCubie(DIM - 1, j, i).RightColor;
+                    matrix[i, j + DIM] = cube.FindCubie(0, j, DIM - i - 1).LeftColor;
+                    matrix[i + DIM, j] = cube.FindCubie(i, 0, DIM - j - 1).UpColor;
+                    matrix[i + DIM, j + DIM * 2] = cube.FindCubie(i, DIM - 1, j).DownColor;
                 }
 
             Console.Clear();
@@ -122,9 +122,7 @@ namespace Test
                         Console.Write(" ");
                 }
 
-                if (i % 3
-                    
-                    == 2)
+                if (i % 3 == 2)
                     Console.WriteLine();
 
                 Console.WriteLine("\n");
