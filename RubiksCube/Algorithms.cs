@@ -255,7 +255,7 @@ namespace RubiksCube
             Move.Left,
             Move.BackPrime,
             Move.RightPrime,
-            Move.Front
+            Move.Back
         };
 
         public static Move[] PLLEdgeClockwise = 

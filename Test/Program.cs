@@ -11,43 +11,46 @@ namespace Test
     class Program
     {
         const int DIM = 3;
-        const bool RESOLVE = true
-            ;
+        const bool RESOLVE = true;
 
         static void Main(string[] args)
         {
             Cube cube = new Cube();
-
-            cube.Scramble(10);
-
+            
             DrawFlatCube(cube);
 
             if (RESOLVE)
             {
-                CubeSolver solver = new CubeSolver(cube);
-
-                solver.Resolve();
-
-                CubeSolution solution = solver.Solution;
-                solution.Optimize();
-
-                foreach (AlgorithmViewPair pair in solution)
+                do
                 {
-                    cube.SetView(pair.View);
                     DrawFlatCube(cube);
-                    Wait();
+                    cube.Scramble(30);
+                    CubeSolver solver = new CubeSolver(cube);
 
-                    foreach (Move move in pair.Algorithm)
+                    solver.Resolve();
+
+                    CubeSolution solution = solver.Solution;
+                    solution.Optimize();
+
+                    foreach (AlgorithmViewPair pair in solution)
                     {
-                        cube.RotateFace(move);
-
-                        Console.Clear();
-
+                        cube.SetView(pair.View);
                         DrawFlatCube(cube);
-
                         Wait();
-                    }
+
+                        foreach (Move move in pair.Algorithm)
+                        {
+                            cube.RotateFace(move);
+
+                            Console.Clear();
+
+                            DrawFlatCube(cube);
+
+                            Wait();
+                        }
+                    } 
                 }
+                while (Console.ReadKey().Key == ConsoleKey.Enter);
             }
             else
                 while (true)
@@ -65,6 +68,8 @@ namespace Test
         private static void Wait()
         {
             Console.ReadLine();
+
+            //Thread.Sleep(1);
         }
 
         private static ConsoleColor GetConsoleColor(RubiksColor? c)

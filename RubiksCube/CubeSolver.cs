@@ -24,7 +24,7 @@ namespace RubiksCube
         {
             Solution = new CubeSolution();
             _cube = cube.Clone();
-            _currentView = new CubeView(RubiksColor.Blue, RubiksColor.White);
+            _currentView = new CubeView(_cube.GetFaceColor(Face.Front), _cube.GetFaceColor(Face.Up));
             _currentAlgorithm = new List<Move>();
         }
 
@@ -48,34 +48,39 @@ namespace RubiksCube
             ChangeView(new CubeView(SIDE_COLORS[0], FINAL_COLOR));
 
             IEnumerable<Cubie> corners = _cube.GetFaceCubies(Face.Up).Corners();
-			bool onlyOneCorner = false;
-			
-            for (int i = 0; i < 4 && !onlyOneCorner; i++)
+			int correctCornersCount = corners.CorrectCubies(_cube).Count<Cubie>();
+
+            for (int i = 0; i < 4 && correctCornersCount != 4 && correctCornersCount != 1; i++)
 			{
-				onlyOneCorner = corners.CorrectCubies(_cube).Count<Cubie>() == 1;
-				if (!onlyOneCorner)
-					AddMove(Move.Up);
+			    AddMove(Move.Up);
+                correctCornersCount = corners.CorrectCubies(_cube).Count<Cubie>();
 			}
-			
-			for (int c = 0; !_cube.IsCubiePlacedCorrectly(_cube.FindCubie(0, 0, 0)); c++)
-                ChangeView(new CubeView(SIDE_COLORS[c], FINAL_COLOR));
 
-            if (!onlyOneCorner)
+            if (correctCornersCount != 4)
             {
-                AddMoveList(Algorithms.PLLCornerDoubleExchange);
+                if (correctCornersCount != 1)
+                {
+                    AddMoveList(Algorithms.PLLCornerDoubleExchange);
 
-                while (!_cube.IsCubiePlacedCorrectly(_cube.FindCubie(0, 0, 0)))
-                    AddMove(Move.Up);
+                    while (!_cube.IsCubiePlacedCorrectly(_cube.FindCubie(0, 0, 0)))
+                        AddMove(Move.Up);
+                }
+                else
+                {
+                    for (int c = 0; !_cube.IsCubiePlacedCorrectly(_cube.FindCubie(0, 0, 0)); c++)
+                        ChangeView(new CubeView(SIDE_COLORS[c], FINAL_COLOR));
+
+                    if (_cube.FindCubie(2, 0, 0).FrontColor == _cube.FindCubie(2, 1, 1).RightColor)
+                        AddMoveList(Algorithms.PLLCornerCounterClockwise);
+                    else
+                        AddMoveList(Algorithms.PLLCornerClockwise);
+                }
             }
-            else if (_cube.FindCubie(2, 0, 0).FrontColor == _cube.FindCubie(2, 1, 1).RightColor)
-                AddMoveList(Algorithms.PLLCornerCounterClockwise);
-            else
-                AddMoveList(Algorithms.PLLCornerClockwise);
 			
 			// Edges.
-			foreach (RubiksColor col in SIDE_COLORS)
+            for (int c = 0; !_cube.IsSolved(); c++)
             {
-                ChangeView(new CubeView(col, FINAL_COLOR));
+                ChangeView(new CubeView(SIDE_COLORS[c], FINAL_COLOR));
 
                 Cubie frontEdge = _cube.FindCubie(1, 0, 0);
                 Cubie backEdge = _cube.FindCubie(1, 0, 2);
@@ -88,7 +93,7 @@ namespace RubiksCube
                     else
                         AddMoveList(Algorithms.PLLEdgeCounterClockwise);
                 }
-                else if ((int)leftEdge.LeftColor == -(int)frontEdge.FrontColor)
+                else if (leftEdge.LeftColor == _cube.GetFaceColor(Face.Front) && backEdge.BackColor == _cube.GetFaceColor(Face.Right))
                     AddMoveList(Algorithms.PLLEdgeBackslashExchange);
                 else if ((int)frontEdge.FrontColor == -(int)backEdge.BackColor)
                     AddMoveList(Algorithms.PLLEdgeCrossExchange);
@@ -99,11 +104,13 @@ namespace RubiksCube
         {
             YellowCrossCase();
 
-            foreach (RubiksColor col in SIDE_COLORS)
-            {
-                ChangeView(new CubeView(col, FINAL_COLOR));
+            LastLayerConfiguration conf = new LastLayerConfiguration(_cube.GetFaceCubies(Face.Up));
 
-                LastLayerConfiguration conf = new LastLayerConfiguration(_cube.GetFaceCubies(Face.Up));
+            for (int c = 0; !conf.Matches(OllCases.OLLComplete); c++)
+            {
+                ChangeView(new CubeView(SIDE_COLORS[c], FINAL_COLOR));
+
+                conf = new LastLayerConfiguration(_cube.GetFaceCubies(Face.Up));
 
                 if (conf.Matches(OllCases.OLLSituation1))
                     AddMoveList(Algorithms.OLLSituation1);
@@ -119,6 +126,8 @@ namespace RubiksCube
                     AddMoveList(Algorithms.OLLSituation6);
                 else if (conf.Matches(OllCases.OLLSituation7))
                     AddMoveList(Algorithms.OLLSituation7);
+
+                conf = new LastLayerConfiguration(_cube.GetFaceCubies(Face.Up));
             }
         }
 
@@ -292,6 +301,9 @@ namespace RubiksCube
                 }
                 _currentView = view;
                 _cube.SetView(view);
+                
+                // Prova da eliminare.
+                DrawFlatCube(_cube);
             }
         }
 
@@ -301,7 +313,7 @@ namespace RubiksCube
             _cube.RotateFace(m);
 
             // Prova: da eliminare.
-            //DrawFlatCube(_cube);
+            DrawFlatCube(_cube);
             //Console.ReadLine();
         }
 
@@ -366,12 +378,12 @@ namespace RubiksCube
             for (int i = 0; i < DIM; i++)
                 for (int j = 0; j < DIM; j++)
                 {
-                    matrix[i, j + DIM] = cube.FindCubie(i, j, 0).FrontColor;
-                    matrix[i + DIM * 2, j + DIM] = cube.FindCubie(DIM - i - 1, j, DIM - 1).BackColor;
-                    matrix[i + DIM, j + DIM] = cube.FindCubie(DIM - 1, j, i).RightColor;
-                    matrix[i + DIM * 3, j + DIM] = cube.FindCubie(0, j, DIM - i - 1).LeftColor;
-                    matrix[i, j] = cube.FindCubie(i, 0, DIM - j - 1).UpColor;
-                    matrix[i, j + DIM * 2] = cube.FindCubie(i, DIM - 1, j).DownColor;
+                    matrix[i + DIM, j + DIM] = cube.FindCubie(i, j, 0).FrontColor;
+                    matrix[i + DIM * 3, j + DIM] = cube.FindCubie(DIM - i - 1, j, DIM - 1).BackColor;
+                    matrix[i + DIM * 2, j + DIM] = cube.FindCubie(DIM - 1, j, i).RightColor;
+                    matrix[i, j + DIM] = cube.FindCubie(0, j, DIM - i - 1).LeftColor;
+                    matrix[i + DIM, j] = cube.FindCubie(i, 0, DIM - j - 1).UpColor;
+                    matrix[i + DIM, j + DIM * 2] = cube.FindCubie(i, DIM - 1, j).DownColor;
                 }
 
             Console.Clear();
