@@ -67,7 +67,7 @@ namespace Test
 
         private static void Wait()
         {
-            Console.ReadLine();
+            //Console.ReadLine();
 
             //Thread.Sleep(1);
         }

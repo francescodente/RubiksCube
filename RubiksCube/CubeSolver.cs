@@ -78,7 +78,7 @@ namespace RubiksCube
             }
 			
 			// Edges.
-            for (int c = 0; !_cube.IsSolved(); c++)
+            for (int c = 0; c < SIDE_COLORS.Length && !_cube.IsSolved(); c++)
             {
                 ChangeView(new CubeView(SIDE_COLORS[c], FINAL_COLOR));
 
@@ -93,10 +93,10 @@ namespace RubiksCube
                     else
                         AddMoveList(Algorithms.PLLEdgeCounterClockwise);
                 }
+                else if ((int)frontEdge.FrontColor == -(int)_cube.GetFaceColor(Face.Front))
+                    AddMoveList(Algorithms.PLLEdgeCrossExchange);
                 else if (leftEdge.LeftColor == _cube.GetFaceColor(Face.Front) && backEdge.BackColor == _cube.GetFaceColor(Face.Right))
                     AddMoveList(Algorithms.PLLEdgeBackslashExchange);
-                else if ((int)frontEdge.FrontColor == -(int)backEdge.BackColor)
-                    AddMoveList(Algorithms.PLLEdgeCrossExchange);
             }
         }
 
@@ -301,8 +301,7 @@ namespace RubiksCube
                 }
                 _currentView = view;
                 _cube.SetView(view);
-                
-                // Prova da eliminare.
+
                 DrawFlatCube(_cube);
             }
         }
@@ -311,10 +310,7 @@ namespace RubiksCube
         {
             _currentAlgorithm.Add(m);
             _cube.RotateFace(m);
-
-            // Prova: da eliminare.
             DrawFlatCube(_cube);
-            //Console.ReadLine();
         }
 
         private void AddMoveList(IEnumerable<Move> moveList)
