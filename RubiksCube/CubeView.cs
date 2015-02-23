@@ -16,5 +16,7 @@ namespace RubiksCube
             FrontColor = front;
             UpColor = up;
         }
+
+        public static CubeView Any { get { return new CubeView(RubiksColor.Any, RubiksColor.Any); } }
     }
 }

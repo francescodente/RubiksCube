@@ -11,14 +11,9 @@ namespace RubiksCube
         public List<Move> Algorithm { get; private set; }
         public CubeView View { get; private set; }
 
-        public AlgorithmViewPair(Move[] algorythm, CubeView view) : this(new List<Move>(algorythm), view)
+        public AlgorithmViewPair(IEnumerable<Move> algorithm, CubeView view)
         {
-
-        }
-
-        public AlgorithmViewPair(List<Move> algorithm, CubeView view)
-        {
-            Algorithm = algorithm;
+            Algorithm = new List<Move>(algorithm);
             View = view;
         }
 

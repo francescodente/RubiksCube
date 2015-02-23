@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace RubiksCube
 {
-    public class CubeSolution : ICollection<AlgorithmViewPair>
+    public class AlgorithmCollection : ICollection<AlgorithmViewPair>
     {
         private List<AlgorithmViewPair> _pairs;
 
-        public CubeSolution()
+        public AlgorithmCollection()
         {
             _pairs = new List<AlgorithmViewPair>();
         }
@@ -80,6 +80,14 @@ namespace RubiksCube
                         i--;
                     }
                 }
+
+            for (int i = 0; i < _pairs.Count; i++)
+            {
+                if (_pairs[i].Algorithm.Count <= 0)
+                    _pairs.RemoveAt(i);
+
+                i--;
+            }
         }
     }
 }

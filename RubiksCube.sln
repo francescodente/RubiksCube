@@ -9,6 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{62512176
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{09538113-1550-4817-B1AB-1AE1343B6C0B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RubiksCube.Mindstorm", "RubiksCube.Mindstorm\RubiksCube.Mindstorm.csproj", "{37F3E4B3-0E4F-4D73-8A4A-101CF2187A27}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +25,10 @@ Global
 		{09538113-1550-4817-B1AB-1AE1343B6C0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09538113-1550-4817-B1AB-1AE1343B6C0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09538113-1550-4817-B1AB-1AE1343B6C0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37F3E4B3-0E4F-4D73-8A4A-101CF2187A27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37F3E4B3-0E4F-4D73-8A4A-101CF2187A27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37F3E4B3-0E4F-4D73-8A4A-101CF2187A27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37F3E4B3-0E4F-4D73-8A4A-101CF2187A27}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

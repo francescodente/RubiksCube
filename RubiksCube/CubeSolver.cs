@@ -12,7 +12,7 @@ namespace RubiksCube
         const RubiksColor FINAL_COLOR = RubiksColor.Yellow;
         const int DIM = 3;
 
-        public CubeSolution Solution { get; private set; }
+        public AlgorithmCollection Solution { get; private set; }
         
         private RubiksColor[] SIDE_COLORS = { RubiksColor.Blue, RubiksColor.Orange, RubiksColor.Green, RubiksColor.Red };
 
@@ -22,15 +22,14 @@ namespace RubiksCube
 
         public CubeSolver(Cube cube)
         {
-            Solution = new CubeSolution();
             _cube = cube.Clone();
             _currentView = new CubeView(_cube.GetFaceColor(Face.Front), _cube.GetFaceColor(Face.Up));
             _currentAlgorithm = new List<Move>();
         }
 
-        public void Resolve()
+        public AlgorithmCollection Resolve()
         {
-            Solution = new CubeSolution();
+            Solution = new AlgorithmCollection();
 
             CrossPhase();
             FirstLayer();
@@ -40,6 +39,8 @@ namespace RubiksCube
 
             if (_currentAlgorithm.Count > 0)
                 Solution.Add(new AlgorithmViewPair(_currentAlgorithm, _currentView));
+
+            return Solution;
         }
 
         private void PLL()
@@ -93,7 +94,7 @@ namespace RubiksCube
                     else
                         AddMoveList(Algorithms.PLLEdgeCounterClockwise);
                 }
-                else if ((int)frontEdge.FrontColor == -(int)_cube.GetFaceColor(Face.Front))
+                else if ((int)frontEdge.FrontColor == -(int)_cube.GetFaceColor(Face.Front) && (int)backEdge.BackColor == -(int)_cube.GetFaceColor(Face.Back))
                     AddMoveList(Algorithms.PLLEdgeCrossExchange);
                 else if (leftEdge.LeftColor == _cube.GetFaceColor(Face.Front) && backEdge.BackColor == _cube.GetFaceColor(Face.Right))
                     AddMoveList(Algorithms.PLLEdgeBackslashExchange);
@@ -301,8 +302,6 @@ namespace RubiksCube
                 }
                 _currentView = view;
                 _cube.SetView(view);
-
-                DrawFlatCube(_cube);
             }
         }
 
@@ -310,7 +309,6 @@ namespace RubiksCube
         {
             _currentAlgorithm.Add(m);
             _cube.RotateFace(m);
-            DrawFlatCube(_cube);
         }
 
         private void AddMoveList(IEnumerable<Move> moveList)

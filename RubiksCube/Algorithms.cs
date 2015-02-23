@@ -345,5 +345,23 @@ namespace RubiksCube
             foreach (Move m in algo)
                 cube.RotateFace(m);
         }
+
+        public static Move[] GenerateScramble(int n)
+        {
+            Random rnd = new Random();
+            Move[] moves = new Move[n];
+
+            for (int i = 0; i < n; i++)
+            {
+                int move = rnd.Next(1, 7);
+
+                if (rnd.Next(0, 2) == 1)
+                    move *= -1;
+
+                moves[i] = (Move)move;
+            }
+
+            return moves;
+        }
     }
 }

@@ -29,7 +29,7 @@ namespace Test
 
                     solver.Resolve();
 
-                    CubeSolution solution = solver.Solution;
+                    AlgorithmCollection solution = solver.Solution;
                     solution.Optimize();
 
                     foreach (AlgorithmViewPair pair in solution)
@@ -67,7 +67,7 @@ namespace Test
 
         private static void Wait()
         {
-            //Console.ReadLine();
+            Console.ReadLine();
 
             //Thread.Sleep(1);
         }

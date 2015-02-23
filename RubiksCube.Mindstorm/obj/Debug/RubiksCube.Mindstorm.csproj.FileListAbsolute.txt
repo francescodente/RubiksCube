@@ -1,0 +1,11 @@
+C:\Users\Salvatore_\documents\visual studio 2013\Projects\RubiksCube\RubiksCube.Mindstorm\bin\Debug\RubiksCube.Mindstorm.dll
+C:\Users\Salvatore_\documents\visual studio 2013\Projects\RubiksCube\RubiksCube.Mindstorm\bin\Debug\RubiksCube.Mindstorm.pdb
+C:\Users\Salvatore_\documents\visual studio 2013\Projects\RubiksCube\RubiksCube.Mindstorm\bin\Debug\Lego.Ev3.Desktop.dll
+C:\Users\Salvatore_\documents\visual studio 2013\Projects\RubiksCube\RubiksCube.Mindstorm\bin\Debug\Lego.Ev3.Phone.dll
+C:\Users\Salvatore_\documents\visual studio 2013\Projects\RubiksCube\RubiksCube.Mindstorm\bin\Debug\RubiksCube.dll
+C:\Users\Salvatore_\documents\visual studio 2013\Projects\RubiksCube\RubiksCube.Mindstorm\bin\Debug\RubiksCube.pdb
+C:\Users\Salvatore_\documents\visual studio 2013\Projects\RubiksCube\RubiksCube.Mindstorm\bin\Debug\Lego.Ev3.Desktop.xml
+C:\Users\Salvatore_\documents\visual studio 2013\Projects\RubiksCube\RubiksCube.Mindstorm\bin\Debug\Lego.Ev3.Phone.xml
+C:\Users\Salvatore_\documents\visual studio 2013\Projects\RubiksCube\RubiksCube.Mindstorm\obj\Debug\RubiksCube.Mindstorm.csprojResolveAssemblyReference.cache
+C:\Users\Salvatore_\documents\visual studio 2013\Projects\RubiksCube\RubiksCube.Mindstorm\obj\Debug\RubiksCube.Mindstorm.dll
+C:\Users\Salvatore_\documents\visual studio 2013\Projects\RubiksCube\RubiksCube.Mindstorm\obj\Debug\RubiksCube.Mindstorm.pdb
