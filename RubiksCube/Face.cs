@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace RubiksCube
 {
+    /// <summary>
+    /// Identifies a face of the cube.
+    /// </summary>
     public enum Face
     {
         Front = 1,

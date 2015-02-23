@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace RubiksCube
 {
+    /// <summary>
+    /// Contains algorithms and methods to work on algorithms.
+    /// </summary>
     public static class Algorithms
     {
         public static Move[] CrossEdgeRightWhiteFront = 
@@ -340,12 +343,22 @@ namespace RubiksCube
             Move.Right,
         };
 
+        /// <summary>
+        /// Executes a list of moves on a specified cube.
+        /// </summary>
+        /// <param name="cube">The cube.</param>
+        /// <param name="algo">The algorithm.</param>
         public static void ExecuteAlgorithm(Cube cube, IEnumerable<Move> algo)
         {
             foreach (Move m in algo)
-                cube.RotateFace(m);
+                cube.ExecuteMove(m);
         }
 
+        /// <summary>
+        /// Generates a number of random moves equal to the specified number.
+        /// </summary>
+        /// <param name="n">The number of moves.</param>
+        /// <returns>The array of random moves.</returns>
         public static Move[] GenerateScramble(int n)
         {
             Random rnd = new Random();

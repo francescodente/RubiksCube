@@ -5,6 +5,9 @@ using System.Text;
 
 namespace RubiksCube
 {
+    /// <summary>
+    /// Identifies a rotation axis.
+    /// </summary>
     public enum Axis
     {
         X,

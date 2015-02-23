@@ -27,7 +27,7 @@ namespace Test
                     cube.Scramble(30);
                     CubeSolver solver = new CubeSolver(cube);
 
-                    solver.Resolve();
+                    solver.Solve();
 
                     AlgorithmCollection solution = solver.Solution;
                     solution.Optimize();
@@ -40,7 +40,7 @@ namespace Test
 
                         foreach (Move move in pair.Algorithm)
                         {
-                            cube.RotateFace(move);
+                            cube.ExecuteMove(move);
 
                             Console.Clear();
 
@@ -57,7 +57,7 @@ namespace Test
                 {
                     Console.Write("Inserisci mossa: ");
                     Move m = (Move)Enum.Parse(typeof(Move), Console.ReadLine());
-                    cube.RotateFace(m);
+                    cube.ExecuteMove(m);
 
                     DrawFlatCube(cube);
                 }

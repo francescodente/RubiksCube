@@ -6,20 +6,32 @@ using System.Threading.Tasks;
 
 namespace RubiksCube
 {
+    /// <summary>
+    /// Represents an object able to resolve a 3x3x3 rubik's cube.
+    /// </summary>
     public class CubeSolver
     {
+        // The colors from which the solution may start and finish.
         const RubiksColor STARTING_COLOR = RubiksColor.White;
-        const RubiksColor FINAL_COLOR = RubiksColor.Yellow;
+        const RubiksColor FINAL_COLOR = (RubiksColor)(-(int)STARTING_COLOR);
         const int DIM = 3;
 
+        /// <summary>
+        /// Gets the solution of the cube.
+        /// </summary>
         public AlgorithmCollection Solution { get; private set; }
         
-        private RubiksColor[] SIDE_COLORS = { RubiksColor.Blue, RubiksColor.Orange, RubiksColor.Green, RubiksColor.Red };
+        // The array that contains the side colors.
+        private RubiksColor[] SideColors = { RubiksColor.Blue, RubiksColor.Orange, RubiksColor.Green, RubiksColor.Red };
 
-        private CubeView _currentView;
-        private List<Move> _currentAlgorithm;
-        private Cube _cube;
+        private CubeView _currentView;          // The view on which the program is working on at the moment.
+        private List<Move> _currentAlgorithm;   // The list of moves on which the program is working on at the moment.
+        private Cube _cube;                     // The cube the program is trying to resolve.
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="FCubeSolver"/> class.
+        /// </summary>
+        /// <param name="cube">The cube.</param>
         public CubeSolver(Cube cube)
         {
             _cube = cube.Clone();
@@ -27,10 +39,40 @@ namespace RubiksCube
             _currentAlgorithm = new List<Move>();
         }
 
-        public AlgorithmCollection Resolve()
+        /// <summary>
+        /// Returns the algorithms that solves the cube.
+        /// </summary>
+        /// <returns>The solution.</returns>
+        public AlgorithmCollection Solve()
         {
             Solution = new AlgorithmCollection();
 
+            /* The solution is composed by five steps. 
+             * 
+             * 
+             * 
+             * 1. Cross Phase:
+             * Consists of building an oriented white (or any other color) cross on the top layer, which means
+             * all of the white edges must be placed correctly.
+             * 
+             * 
+             * 2. First Layer:
+             * After the white cross, all the white corners must be put in their places, without scrambling
+             * what has been done before. With this done, the first layer is completed.
+             * 
+             * 
+             * 3. Second Layer:
+             * All of the side edges must be put in the right place and this is what this step does.
+             * 
+             * 
+             * 4. OLL (Orientation Last Layer):
+             * Consists of orienting all of the cubies in the last layer with the final color in the upper face.
+             * 
+             * 
+             * 5. PLL (Permutation Last Layer):
+             * Consists of ordering all the cubies of the last layer to have each one of them placed correctly.
+             * 
+             */
             CrossPhase();
             FirstLayer();
             SecondLayer();
@@ -43,22 +85,32 @@ namespace RubiksCube
             return Solution;
         }
 
+        /// <summary>
+        /// Executes the PLL phase.
+        /// </summary>
         private void PLL()
         {
-			// Corners.
-            ChangeView(new CubeView(SIDE_COLORS[0], FINAL_COLOR));
+            // ******************* CORNERS *******************
 
+            // Sets the view.
+            ChangeView(new CubeView(SideColors[0], FINAL_COLOR));
+
+            // Gets the last layer corners and the number of how many of them is already correct.
             IEnumerable<Cubie> corners = _cube.GetFaceCubies(Face.Up).Corners();
 			int correctCornersCount = corners.CorrectCubies(_cube).Count<Cubie>();
 
+            // Rotates the last layer until only one or all of the corners are correct (max 4 times).
             for (int i = 0; i < 4 && correctCornersCount != 4 && correctCornersCount != 1; i++)
 			{
 			    AddMove(Move.Up);
                 correctCornersCount = corners.CorrectCubies(_cube).Count<Cubie>();
 			}
 
+            // Continues with the algorithm only if any of the corners isn't already correct.
             if (correctCornersCount != 4)
             {
+                // If more or less than one corner is correct, the program will use the algorithm to
+                // exchange the corners and then rotate the upper layer until the corners are correct.
                 if (correctCornersCount != 1)
                 {
                     AddMoveList(Algorithms.PLLCornerDoubleExchange);
@@ -66,10 +118,13 @@ namespace RubiksCube
                     while (!_cube.IsCubiePlacedCorrectly(_cube.FindCubie(0, 0, 0)))
                         AddMove(Move.Up);
                 }
+
+                // If one corner is correct the cube will be rotated until it is on the left in the front face,
+                // then use the correct algorithm.
                 else
                 {
                     for (int c = 0; !_cube.IsCubiePlacedCorrectly(_cube.FindCubie(0, 0, 0)); c++)
-                        ChangeView(new CubeView(SIDE_COLORS[c], FINAL_COLOR));
+                        ChangeView(new CubeView(SideColors[c], FINAL_COLOR));
 
                     if (_cube.FindCubie(2, 0, 0).FrontColor == _cube.FindCubie(2, 1, 1).RightColor)
                         AddMoveList(Algorithms.PLLCornerCounterClockwise);
@@ -77,16 +132,19 @@ namespace RubiksCube
                         AddMoveList(Algorithms.PLLCornerClockwise);
                 }
             }
-			
-			// Edges.
-            for (int c = 0; c < SIDE_COLORS.Length && !_cube.IsSolved(); c++)
+
+            // ******************* EDGES *******************
+
+            // Keeps on turning the cube until the cube is solved.
+            for (int c = 0; c < SideColors.Length && !_cube.IsSolved(); c++)
             {
-                ChangeView(new CubeView(SIDE_COLORS[c], FINAL_COLOR));
+                ChangeView(new CubeView(SideColors[c], FINAL_COLOR));
 
                 Cubie frontEdge = _cube.FindCubie(1, 0, 0);
                 Cubie backEdge = _cube.FindCubie(1, 0, 2);
                 Cubie leftEdge = _cube.FindCubie(0, 0, 1);
 
+                // Depending on the situation, the program will use a different algorithm.
                 if (_cube.IsCubiePlacedCorrectly(frontEdge))
                 {
                     if ((int)leftEdge.LeftColor == -(int)frontEdge.FrontColor)
@@ -101,18 +159,27 @@ namespace RubiksCube
             }
         }
 
+        /// <summary>
+        /// Executes the OLL phase.
+        /// </summary>
         private void OLL()
         {
-            YellowCrossCase();
+            // The first thing to do is to build a yellow cross.
+            BuildYellowCross();
 
+            // Gets the configuration of the last layer.
             LastLayerConfiguration conf = new LastLayerConfiguration(_cube.GetFaceCubies(Face.Up));
 
+            // Keeps on changing the view until OLL is complete.
             for (int c = 0; !conf.Matches(OllCases.OLLComplete); c++)
             {
-                ChangeView(new CubeView(SIDE_COLORS[c], FINAL_COLOR));
+                // Sets the view.
+                ChangeView(new CubeView(SideColors[c], FINAL_COLOR));
 
+                // Gets the configuration before the algorithms.
                 conf = new LastLayerConfiguration(_cube.GetFaceCubies(Face.Up));
 
+                // If the configuration matches any of the situations, the proper algorithm will be used.
                 if (conf.Matches(OllCases.OLLSituation1))
                     AddMoveList(Algorithms.OLLSituation1);
                 else if (conf.Matches(OllCases.OLLSituation2))
@@ -128,19 +195,20 @@ namespace RubiksCube
                 else if (conf.Matches(OllCases.OLLSituation7))
                     AddMoveList(Algorithms.OLLSituation7);
 
+                // Gets the configuration after the algorithms.
                 conf = new LastLayerConfiguration(_cube.GetFaceCubies(Face.Up));
             }
         }
 
         private void SecondLayer()
         {
-            for (int c = 0; c < SIDE_COLORS.Length; c++)
+            for (int c = 0; c < SideColors.Length; c++)
             {
                 // Gets the edge that needs to be moved.
-                Cubie edge = _cube.FindEdge(SIDE_COLORS[c], SIDE_COLORS[(c + 1) % 4]);
+                Cubie edge = _cube.FindEdge(SideColors[c], SideColors[(c + 1) % 4]);
                 if (!_cube.IsCubiePlacedCorrectly(edge))
                 {
-                    ChangeView(new CubeView(SIDE_COLORS[c], FINAL_COLOR));
+                    ChangeView(new CubeView(SideColors[c], FINAL_COLOR));
 
                     // If the edge is in the middle layer and it is located in the back face,
                     // the view will be set to the back face. Then the program will use the algorithm to switch
@@ -148,7 +216,7 @@ namespace RubiksCube
                     if (edge.Y == 1)
                     {
                         if (edge.Z == 2)
-                            ChangeView(new CubeView(SIDE_COLORS[(c + 2) % 4], FINAL_COLOR));
+                            ChangeView(new CubeView(SideColors[(c + 2) % 4], FINAL_COLOR));
 
                         if (edge.X == 0)
                             AddMoveList(Algorithms.SecondLayerLeft);
@@ -157,10 +225,10 @@ namespace RubiksCube
                     }
 
                     // Sets the view.
-                    if (edge.UpColor == SIDE_COLORS[c])
-                        ChangeView(new CubeView(SIDE_COLORS[(c + 1) % 4], FINAL_COLOR));
+                    if (edge.UpColor == SideColors[c])
+                        ChangeView(new CubeView(SideColors[(c + 1) % 4], FINAL_COLOR));
                     else
-                        ChangeView(new CubeView(SIDE_COLORS[c], FINAL_COLOR));
+                        ChangeView(new CubeView(SideColors[c], FINAL_COLOR));
 
                     // Rotates the upper layer until the edge is in the front face.
                     while (edge.Z != 0)
@@ -177,13 +245,13 @@ namespace RubiksCube
 
         private void FirstLayer()
         {
-            for (int c = 0; c < SIDE_COLORS.Length; c++)
+            for (int c = 0; c < SideColors.Length; c++)
             {
                 // Sets the view with the current color in the front face and the white on the top.
-                ChangeView(new CubeView(SIDE_COLORS[c], STARTING_COLOR));
+                ChangeView(new CubeView(SideColors[c], STARTING_COLOR));
 
                 // Gets the corner that needs to be moved.
-                Cubie corner = _cube.FindCorner(STARTING_COLOR, SIDE_COLORS[c], SIDE_COLORS[(c + 1) % 4]);
+                Cubie corner = _cube.FindCorner(STARTING_COLOR, SideColors[c], SideColors[(c + 1) % 4]);
 
                 if (!_cube.IsCubiePlacedCorrectly(corner))
                 {
@@ -221,7 +289,7 @@ namespace RubiksCube
 
         private void CrossPhase()
         {
-            foreach (RubiksColor col in SIDE_COLORS)
+            foreach (RubiksColor col in SideColors)
             {
                 // Sets the view with the current color in the front face and the white on the top.
                 ChangeView(new CubeView(col, STARTING_COLOR));
@@ -291,6 +359,10 @@ namespace RubiksCube
             }
         }
 
+        /// <summary>
+        /// Changes the current view and adds the current algorithm to the solution.
+        /// </summary>
+        /// <param name="view">New view</param>
         private void ChangeView(CubeView view)
         {
             if (_currentView.FrontColor != view.FrontColor || _currentView.UpColor != view.UpColor)
@@ -305,99 +377,50 @@ namespace RubiksCube
             }
         }
 
-        private void AddMove(Move m)
+        /// <summary>
+        /// Adds a move to the current algorithm.
+        /// </summary>
+        /// <param name="move">The move.</param>
+        private void AddMove(Move move)
         {
-            _currentAlgorithm.Add(m);
-            _cube.RotateFace(m);
+            _currentAlgorithm.Add(move);
+            _cube.ExecuteMove(move);
         }
 
+        /// <summary>
+        /// Adds a list of moves to the current algorithm.
+        /// </summary>
+        /// <param name="moveList">The list</param>
         private void AddMoveList(IEnumerable<Move> moveList)
         {
             foreach (Move m in moveList)
                 AddMove(m);
         }
 
-        private void YellowCrossCase()
+        /// <summary>
+        /// Builds the yellow cross for OLL.
+        /// </summary>
+        private void BuildYellowCross()
         {
-            foreach (RubiksColor col in SIDE_COLORS)
+            foreach (RubiksColor col in SideColors)
             {
+                // Sets the view.
                 ChangeView(new CubeView(col, FINAL_COLOR));
 
+                // Gets the configuration.
                 LastLayerConfiguration config = new LastLayerConfiguration(_cube.GetFaceCubies(Face.Up));
 
+                // Uses the correct algorithm if any match is found.
                 if (config.Matches(OllCases.YellowCenter))
                 {
+                    // If the configuration matches the yellow center case, another algorithm will be needed.
                     AddMoveList(Algorithms.OLLCross1);
-                    YellowCrossCase();
+                    BuildYellowCross();
                 }
                 else if (config.Matches(OllCases.YellowL))
                     AddMoveList(Algorithms.OLLCross2);
                 else if (config.Matches(OllCases.YellowLine))
                     AddMoveList(Algorithms.OLLCross1);
-            }
-        }
-
-        private static ConsoleColor GetConsoleColor(RubiksColor? c)
-        {
-            switch (c)
-            {
-                case RubiksColor.Blue:
-                    return ConsoleColor.Blue;
-                case RubiksColor.Green:
-                    return ConsoleColor.DarkGreen;
-                case RubiksColor.Orange:
-                    return ConsoleColor.Red;
-                case RubiksColor.Red:
-                    return ConsoleColor.DarkRed;
-                case RubiksColor.White:
-                    return ConsoleColor.White;
-                case RubiksColor.Yellow:
-                    return ConsoleColor.Yellow;
-            }
-
-            return ConsoleColor.Black;
-        }
-
-        private static void WriteColored(string m, ConsoleColor col)
-        {
-            Console.BackgroundColor = col;
-            Console.Write(m);
-            Console.BackgroundColor = ConsoleColor.Black;
-        }
-
-        private static void DrawFlatCube(Cube cube)
-        {
-            RubiksColor?[,] matrix = new RubiksColor?[DIM * 4, DIM * 3];
-
-            for (int i = 0; i < DIM; i++)
-                for (int j = 0; j < DIM; j++)
-                {
-                    matrix[i + DIM, j + DIM] = cube.FindCubie(i, j, 0).FrontColor;
-                    matrix[i + DIM * 3, j + DIM] = cube.FindCubie(DIM - i - 1, j, DIM - 1).BackColor;
-                    matrix[i + DIM * 2, j + DIM] = cube.FindCubie(DIM - 1, j, i).RightColor;
-                    matrix[i, j + DIM] = cube.FindCubie(0, j, DIM - i - 1).LeftColor;
-                    matrix[i + DIM, j] = cube.FindCubie(i, 0, DIM - j - 1).UpColor;
-                    matrix[i + DIM, j + DIM * 2] = cube.FindCubie(i, DIM - 1, j).DownColor;
-                }
-
-            Console.Clear();
-            for (int i = 0; i < matrix.GetLength(1); i++)
-            {
-                for (int j = 0; j < matrix.GetLength(0); j++)
-                {
-                    WriteColored("  ", GetConsoleColor(matrix[j, i]));
-                    if (j % 3 == 2)
-                        Console.Write("  ");
-                    else
-                        Console.Write(" ");
-                }
-
-                if (i % 3
-
-                    == 2)
-                    Console.WriteLine();
-
-                Console.WriteLine("\n");
             }
         }
     }

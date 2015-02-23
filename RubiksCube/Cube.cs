@@ -7,14 +7,23 @@ using System.Threading.Tasks;
 
 namespace RubiksCube
 {
+    /// <summary>
+    /// Represents a 3x3x3 rubik's cube.
+    /// </summary>
     public class Cube : IEnumerable<Cubie>
     {
-        const int DIMENSION = 3;
+        private const int DIMENSION = 3;
 
         private List<Cubie> _cubies;
 
-        internal RubiksColor?[, ,] Solved { get; private set; }
+        /// <summary>
+        /// A 5x5x5 matrix used to initialize the colors of the cubies.
+        /// </summary>
+        internal RubiksColor?[, ,] Solved { get; set; }
 
+        /// <summary>
+        /// Gets all the centers of the cube.
+        /// </summary>
         public IEnumerable<Cubie> Centers
         {
             get
@@ -23,6 +32,9 @@ namespace RubiksCube
             }
         }
 
+        /// <summary>
+        /// Gets all the edges of the cube.
+        /// </summary>
         public IEnumerable<Cubie> Edges
         {
             get
@@ -31,6 +43,9 @@ namespace RubiksCube
             }
         }
 
+        /// <summary>
+        /// Gets all the corners of the cube.
+        /// </summary>
         public IEnumerable<Cubie> Corners
         {
             get
@@ -39,13 +54,16 @@ namespace RubiksCube
             }
         }
 
+        /// <summary>
+        /// Initializes a 
+        /// </summary>
         public Cube()
         {
             _cubies = new List<Cubie>();
 
             Solved = new RubiksColor?[DIMENSION + 2, DIMENSION + 2, DIMENSION + 2];
 
-            /*
+            /* The matrix is first set to have the colors represented in the picture.
              * 
              *           Green                     
              *          ________                     z
@@ -70,18 +88,26 @@ namespace RubiksCube
                     Solved[DIMENSION + 1, i, j] = RubiksColor.Orange;
                 }
 
+            // Creates the cubies.
             for (int x = 0; x < DIMENSION; x++)
                 for (int y = 0; y < DIMENSION; y++)
                     for (int z = 0; z < DIMENSION; z++)
                         _cubies.Add(new Cubie(x, y, z, this));
         }
 
+        /// <summary>
+        /// Rotates the specified cubies around an axis.
+        /// </summary>
+        /// <param name="cubies">The cubies.</param>
+        /// <param name="axis">The axis.</param>
+        /// <param name="reverse">Specifies if the rotation must be reverted.</param>
         internal void RotateCubiesAroundAxis(IEnumerable<Cubie> cubies, Axis axis, bool reverse)
         {
             foreach (Cubie c in cubies)
             {
                 int newX = c.X, newY = c.Y, newZ = c.Z;
 
+                // Depending on the axis and on the type of rotation, the x-y-z coordinates will change.
                 if (reverse)
                     switch (axis)
                     {
@@ -119,10 +145,16 @@ namespace RubiksCube
                 c.Y = newY;
                 c.Z = newZ;
 
+                // The cubie must be also rotated to have the colors in the right place.
                 c.Rotate(axis, reverse);
             }
         }
 
+        /// <summary>
+        /// Rotates one face.
+        /// </summary>
+        /// <param name="face">The face.</param>
+        /// <param name="reverse">Specifies if the rotation must be reverted.</param>
         internal void RotateFace(Face face, bool reverse)
         {
             if (face == Face.Front || face == Face.Back)
@@ -133,6 +165,10 @@ namespace RubiksCube
                 RotateCubiesAroundAxis(GetFaceCubies(face), Axis.Y, reverse);
         }
 
+        /// <summary>
+        /// Creates a copy of this instance.
+        /// </summary>
+        /// <returns>The copy.</returns>
         public Cube Clone()
         {
             Cube clone = new Cube();
@@ -145,13 +181,22 @@ namespace RubiksCube
             return clone;
         }
 
-        public void RotateFace(Move m)
+        /// <summary>
+        /// Executes a specified move.
+        /// </summary>
+        /// <param name="move">The move.</param>
+        public void ExecuteMove(Move move)
         {
-            Face f = (Face)Math.Abs((int)m);
+            Face f = (Face)Math.Abs((int)move);
 
-            RotateFace(f, (int)m > 0);
+            RotateFace(f, (int)move > 0);
         }
 
+        /// <summary>
+        /// Gets the list of the cubies contained in the specified face.
+        /// </summary>
+        /// <param name="face"></param>
+        /// <returns></returns>
         public IEnumerable<Cubie> GetFaceCubies(Face face)
         {
             foreach (Cubie c in _cubies)
@@ -159,37 +204,48 @@ namespace RubiksCube
                     yield return c;
         }
 
+        /// <summary>
+        /// Gets the color of the center cubie of the specified face.
+        /// </summary>
+        /// <param name="face">The face.</param>
+        /// <returns>The color.</returns>
         public RubiksColor GetFaceColor(Face face)
         {
             return (RubiksColor)GetFaceCubies(face).Centers().ElementAt<Cubie>(0).GetColor(face);
         }
 
-        public bool FaceContains(Face face, Cubie c)
+        /// <summary>
+        /// Indicates if a face contains a specified cubie.
+        /// </summary>
+        /// <param name="face">The face..</param>
+        /// <param name="cubie">The cubie</param>
+        /// <returns></returns>
+        public bool FaceContains(Face face, Cubie cubie)
         {
             switch (face)
             {
                 case Face.Front:
-                    if (c.Z == 0)
+                    if (cubie.Z == 0)
                         return true;
                     return false;
                 case Face.Back:
-                    if (c.Z == DIMENSION - 1)
+                    if (cubie.Z == DIMENSION - 1)
                         return true;
                     return false;
                 case Face.Right:
-                    if (c.X == DIMENSION - 1)
+                    if (cubie.X == DIMENSION - 1)
                         return true;
                     return false;
                 case Face.Left:
-                    if (c.X == 0)
+                    if (cubie.X == 0)
                         return true;
                     return false;
                 case Face.Up:
-                    if (c.Y == 0)
+                    if (cubie.Y == 0)
                         return true;
                     return false;
                 case Face.Down:
-                    if (c.Y == DIMENSION - 1)
+                    if (cubie.Y == DIMENSION - 1)
                         return true;
                     return false;
                 default:
@@ -197,17 +253,30 @@ namespace RubiksCube
             }
         }
 
+        /// <summary>
+        /// Gets the enumerator of the collection.
+        /// </summary>
+        /// <returns>The enumerator.</returns>
         public IEnumerator<Cubie> GetEnumerator()
         {
             foreach (Cubie c in _cubies)
                 yield return c;
         }
 
+        /// <summary>
+        /// Gets the enumerator of the collection.
+        /// </summary>
+        /// <returns>The enumerator.</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
         }
 
+        /// <summary>
+        /// Returns the center with the specified color, if existing.
+        /// </summary>
+        /// <param name="color">The color.</param>
+        /// <returns>The center.</returns>
         public Cubie FindCenter(RubiksColor color)
         {
             foreach (Cubie c in Centers)
@@ -217,14 +286,12 @@ namespace RubiksCube
             return null;
         }
 
-        public bool IsCubiePlacedCorrectly(Cubie c)
-        {
-            foreach (Face f in Enum.GetValues(typeof(Face)))
-                if (c.GetColor(f) != null && c.GetColor(f) != GetFaceColor(f))
-                    return false;
-            return true;
-        }
-            
+        /// <summary>
+        /// Returns the edge with the specified colors, if existing.
+        /// </summary>
+        /// <param name="color1">The first color.</param>
+        /// <param name="color2">The second color.</param>
+        /// <returns>The edge.</returns>
         public Cubie FindEdge(RubiksColor color1, RubiksColor color2)
         {
             foreach (Cubie c in Edges)
@@ -234,6 +301,13 @@ namespace RubiksCube
             return null;
         }
 
+        /// <summary>
+        /// Returns the corner with the specified colors, if existing.
+        /// </summary>
+        /// <param name="color1">The first color.</param>
+        /// <param name="color2">The second color.</param>
+        /// <param name="color3">The third color.</param>
+        /// <returns>The corner.</returns>
         public Cubie FindCorner(RubiksColor color1, RubiksColor color2, RubiksColor color3)
         {
             foreach (Cubie c in Corners)
@@ -243,26 +317,57 @@ namespace RubiksCube
             return null;
         }
 
+        /// <summary>
+        /// Indicates if the cubie is in the right place.
+        /// </summary>
+        /// <param name="cubie">The cubie.</param>
+        /// <returns>True if the cubie is placed correctly.</returns>
+        public bool IsCubiePlacedCorrectly(Cubie cubie)
+        {
+            foreach (Face f in Enum.GetValues(typeof(Face)))
+                if (cubie.GetColor(f) != null && cubie.GetColor(f) != GetFaceColor(f))
+                    return false;
+            return true;
+        }
+
+        /// <summary>
+        /// Sets the view of the cube.
+        /// </summary>
+        /// <param name="front">The color of the front face.</param>
+        /// <param name="up">The color of the up face.</param>
         public void SetView(RubiksColor front, RubiksColor up)
         {
             Cubie centerWithFrontColor = FindCenter(front);
 
+            // Rotates the cube until the center reaches the front face.
             if (centerWithFrontColor.Y == 1)
-                while (FindCubie(1, 1, 0).FrontColor != front)
+                while (centerWithFrontColor.Z != 0)
                     RotateCubiesAroundAxis(_cubies, Axis.Y, false);
             else
-                while (FindCubie(1, 1, 0).FrontColor != front)
+                while (centerWithFrontColor.Z != 0)
                     RotateCubiesAroundAxis(_cubies, Axis.X, false);
 
+            // Rotates the cube until the center reaches the up face.
             while (FindCubie(1, 0, 1).UpColor != up)
                 RotateCubiesAroundAxis(_cubies, Axis.Z, false);
         }
 
+        /// <summary>
+        /// Sets the view of the cube.
+        /// </summary>
+        /// <param name="view">The view</param>
         public void SetView(CubeView view)
         {
             SetView(view.FrontColor, view.UpColor);
         }
 
+        /// <summary>
+        /// Finds a cubie from its x-y-z coordinates.
+        /// </summary>
+        /// <param name="x">The X coordinate.</param>
+        /// <param name="y">The Y coordinate.</param>
+        /// <param name="z">The Z coordinate.</param>
+        /// <returns></returns>
         public Cubie FindCubie(int x, int y, int z)
 		{
 			foreach (Cubie c in _cubies)
@@ -272,6 +377,10 @@ namespace RubiksCube
 			return null;
 		}
 
+        /// <summary>
+        /// Indicates if the cube is solved or not.
+        /// </summary>
+        /// <returns>True if the cube is solved.</returns>
         public bool IsSolved()
         {
             foreach (Cubie c in _cubies)
@@ -281,6 +390,10 @@ namespace RubiksCube
             return true;
         }
 
+        /// <summary>
+        /// Scrambles the cube with a specified number of random moves.
+        /// </summary>
+        /// <param name="n">Number of moves.</param>
         public void Scramble(int n)
         {
             Random rnd = new Random();

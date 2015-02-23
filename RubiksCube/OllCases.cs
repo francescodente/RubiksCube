@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace RubiksCube
 {
+    /// <summary>
+    /// Contains the possible combinations that may occur during the OLL phase.
+    /// </summary>
     public static class OllCases
     {
         public static LastLayerConfiguration YellowL = new LastLayerConfiguration(new RubiksColor?[,]
