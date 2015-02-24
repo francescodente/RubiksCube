@@ -27,9 +27,7 @@ namespace Test
                     cube.Scramble(30);
                     CubeSolver solver = new CubeSolver(cube);
 
-                    solver.Solve();
-
-                    AlgorithmCollection solution = solver.Solution;
+                    AlgorithmCollection solution = solver.Solve();
                     solution.Optimize();
 
                     foreach (AlgorithmViewPair pair in solution)

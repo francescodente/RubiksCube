@@ -4,7 +4,6 @@ C:\Users\Salvatore_\documents\visual studio 2013\Projects\RubiksCube\RubiksCube\
 C:\Users\Salvatore_\documents\visual studio 2013\Projects\RubiksCube\RubiksCube\obj\Debug\RubiksCube.pdb
 C:\Users\francesco.dente\Desktop\RubiksCube\RubiksCube\bin\Debug\RubiksCube.dll
 C:\Users\francesco.dente\Desktop\RubiksCube\RubiksCube\bin\Debug\RubiksCube.pdb
-C:\Users\francesco.dente\Desktop\RubiksCube\RubiksCube\obj\Debug\RubiksCube.csprojResolveAssemblyReference.cache
 C:\Users\francesco.dente\Desktop\RubiksCube\RubiksCube\obj\Debug\RubiksCube.dll
 C:\Users\francesco.dente\Desktop\RubiksCube\RubiksCube\obj\Debug\RubiksCube.pdb
 C:\Users\Salvatore_\Documents\Visual Studio 2013\Projects\RubiksCube\RubiksCube\obj\Debug\RubiksCube.csprojResolveAssemblyReference.cache

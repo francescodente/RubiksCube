@@ -55,7 +55,7 @@ namespace RubiksCube
         }
 
         /// <summary>
-        /// Initializes a 
+        /// Initializes a new instance of the <see cref="Cube"/> class.
         /// </summary>
         public Cube()
         {

@@ -142,9 +142,10 @@ namespace RubiksCube
             for (int i = 0; i < _pairs.Count; i++)
             {
                 if (_pairs[i].Algorithm.Count <= 0)
+                {
                     _pairs.RemoveAt(i);
-
-                i--;
+                    i--;
+                }
             }
         }
     }
